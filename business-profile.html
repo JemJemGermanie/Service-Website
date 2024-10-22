@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Info Management</title>
+    <link rel="stylesheet" href="business-profile.css">
+    <script type = "text/javaScript"
+    src = "business-profile.js"> </script>
+</head>
+<body onload="renderServices()">
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="business-homepage.html">Admin Home</a>
+    </div>
+
+    <h1>Update Business Information</h1>
+
+    <!-- Form to change company name, address, and phone number -->
+    <form id="businessInfoForm">
+        <label for="companyName">Company Name</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Enter new company name" required>
+
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Enter new address" required></textarea>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter new phone number" required>
+
+        <button type="submit">Update Business Info</button>
+    </form>
+
+    <!-- Services section -->
+    <div class="services-section">
+        <h2>Offered Services</h2>
+        <ul id="servicesList"></ul>
+
+        <label for="newService">Add a New Service</label>
+        <input type="text" id="newService" placeholder="Enter new service">
+
+        <button onclick="addService()">Add Service</button>
+    </div>
+
+</body>
+</html>
