@@ -101,6 +101,67 @@ body {
 }
 
 body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+h1, h2 {
+    color: #333;
+    margin-left: 1%;
+}
+
+form {
+    margin-left: 2%;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, textarea {
+    width: 30%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Services Section */
+.services-section {
+    margin-top: 20px;
+}
+
+.services-section ul {
+    list-style-type: none;
+    margin: 2%;
+    padding: 0;
+}
+
+.services-section li {
+    margin: 10px 0;
+    background-color: #f4f4f4;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+       align-items: center;
+}
+
+.services-section li button {
+    background-color: red;
+    padding: 5px;
 }
