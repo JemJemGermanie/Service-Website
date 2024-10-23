@@ -6,6 +6,8 @@
 
 /* Style the links inside the navigation bar */
 .top-bar a {
+    margin: 0;
+    font-family: Arial, sans-serif;
     float: left;
     display: block;
     color: white;
@@ -25,4 +27,33 @@
     content: "";
     display: table;
     clear: both;
+}
+.button {
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    padding: 12px 24px;
+    margin: 20px 0;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #095f0e;
+}
+
+/* Centering buttons */
+.button-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }

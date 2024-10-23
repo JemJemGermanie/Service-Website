@@ -40,6 +40,10 @@ h1, h2 {
     margin-left: 1%;
 }
 
+p {
+    margin-left: 2%;
+}
+
 form {
     margin-left: 2%;
     margin-bottom: 30px;
@@ -82,9 +86,10 @@ button:hover {
 }
 
 .services-section li {
-    margin: 10px 0;
+    font-size: 18px;
+    margin: 20px 0;
     background-color: #f4f4f4;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
        align-items: center;

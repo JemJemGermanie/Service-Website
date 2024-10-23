@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="business-profile.css">
     <script type = "text/javaScript"
     src = "business-profile.js"> </script>
+
 </head>
-<body onload="renderServices()">
+<body onload="renderServicesAdmin()">
     <div class="top-bar">
         <a href="home.html">Home</a>
         <a href="business-homepage.html">Admin Home</a>
@@ -22,7 +23,7 @@
         <input type="text" id="companyName" name="companyName" placeholder="Enter new company name" required>
 
         <label for="address">Address</label>
-        <textarea id="address" name="address" placeholder="Enter new address" required></textarea>
+        <input type="text" id="address" name="address" placeholder="Enter new address" required>
 
         <label for="phone">Phone Number</label>
         <input type="tel" id="phone" name="phone" placeholder="Enter new phone number" required>
@@ -34,11 +35,12 @@
     <div class="services-section">
         <h2>Offered Services</h2>
         <ul id="servicesList"></ul>
-
-        <label for="newService">Add a New Service</label>
-        <input type="text" id="newService" placeholder="Enter new service">
-
-        <button onclick="addService()">Add Service</button>
+    
+        <form id="addService">
+            <label for="newService">Add a New Service</label>
+            <input type="text" id="newService" placeholder="Enter new service">
+            <button onclick="addService()">Add Service</button>
+        </form>
     </div>
 
 </body>
