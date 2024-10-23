@@ -1,5 +1,12 @@
 /* Top bar styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
 .top-bar {
+    margin: 0;
+    font-family: Arial, sans-serif;
     background-color: #333; /* Dark background */
     overflow: hidden; /* Clear floats */
 }

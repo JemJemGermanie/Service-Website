@@ -1,6 +1,3 @@
-/* Basic styles for the navigation bar */
-
-
 /* Top bar styling */
 .top-bar {
     background-color: #333; /* Dark background */
@@ -30,74 +27,6 @@
     content: "";
     display: table;
     clear: both;
-}
-
-.image-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.image-container img {
-    max-width: 100%; /* Make the image responsive */
-    height: auto;
-}
-body {
-    margin: 0;
-    padding: 0;
-}
-/* Top bar styling */
-.top-bar {
-    background-color: #333; /* Dark background */
-    overflow: hidden; /* Clear floats */
-}
-
-/* Style the links inside the navigation bar */
-.top-bar a {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-}
-
-/* Change color on hover */
-.top-bar a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-/* Clearfix (for clearing floats) */
-.top-bar:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-.button {
-    display: inline-block;
-    font-size: 16px;
-    text-align: center;
-    padding: 12px 24px;
-    margin: 20px 0;
-    color: white;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #095f0e;
-}
-
-/* Centering buttons */
-.button-container {
-    text-align: center;
-    margin-top: 50px;
 }
 
 body {
@@ -109,6 +38,10 @@ body {
 h1, h2 {
     color: #333;
     margin-left: 1%;
+}
+
+p {
+    margin-left: 2%;
 }
 
 form {
@@ -153,9 +86,10 @@ button:hover {
 }
 
 .services-section li {
-    margin: 10px 0;
+    font-size: 18px;
+    margin: 20px 0;
     background-color: #f4f4f4;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
        align-items: center;

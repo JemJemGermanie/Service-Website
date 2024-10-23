@@ -4,17 +4,36 @@
         <title>
             Client homepage
         </title>
-        <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="client-homepage.css">
+        <script type = "text/javaScript"
+        src = "client-homepage.js"> </script>
     </head>
 
-    <body>
+    <body onload="renderServices()">
         <div class="top-bar">
-            <a href="client-homepage.html">Home</a>
+            <a href="home.html">Home</a>
             <a href="our-services.html">Our Services</a>
             <a href="client-account.html"> Account</a>
             <a href="#">About Us</a>
-            <a style="float:right"   href="business-homepage.html">Sign out</a>
+            <a style="float:right"   href="home.html">Sign out</a>
         </div>
-        
+
+        <div class="page">
+            <div class="services-section">
+                <div class="upcoming-services-section">
+                    <h1>Upcoming services</h1>
+                    <ul id="UpcomingServicesList"></ul>
+                </div>
+                <div class="unpaid-services-section">
+                    <h1>Unpaid Services</h1>
+                    <ul id="UnpaidServicesList"></ul>
+                </div>
+                <div>
+                    <h1>Completed Services</h1>
+                    <ul id="CompletedServicesList"></ul>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

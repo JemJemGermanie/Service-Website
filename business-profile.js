@@ -2,7 +2,7 @@
         let services = ["Consulting", "Customer Support", "Software Development"];
 
         // Function to render services
-        function renderServices() {
+        function renderServicesAdmin() {
             const servicesList = document.getElementById('servicesList');
             servicesList.innerHTML = '';
             services.forEach((service, index) => {
@@ -14,6 +14,17 @@
                 `;
             });
         }
+        function renderServicesClient() {
+            const servicesList = document.getElementById('servicesList');
+            servicesList.innerHTML = '';
+            services.forEach((service) => {
+                servicesList.innerHTML += `
+                    <li>
+                        ${service} 
+                    </li>
+                `;
+            });
+        }
 
         // Add a new service
         function addService() {
@@ -21,14 +32,14 @@
             if (newService) {
                 services.push(newService);
                 document.getElementById('newService').value = ''; // Clear input field
-                renderServices();
+                renderServicesAdmin();
             }
         }
 
         // Remove a service
         function removeService(index) {
             services.splice(index, 1); // Remove the selected service
-            renderServices();
+            renderServicesAdmin();
         }
 
         // Handle form submission for business info

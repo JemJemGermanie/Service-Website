@@ -89,7 +89,12 @@ body {
             align-items: center;
         }
 
-        .services-section li button {
+        .upcoming-services-section li button {
             background-color: red;
+            padding: 5px;
+        }
+
+        .unpaid-services-section li button {
+            background-color: green;
             padding: 5px;
         }
