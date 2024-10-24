@@ -2,11 +2,31 @@
 <html>
     <head>
         <title>
-            Edit account details
+            Edit Account details
         </title>
+        <link rel="stylesheet" href="home.css">
     </head>
 
     <body>
-        <label> Edit account details page</label>
+        <div class="top-bar">
+            <a href = "home.html">Home</a>
+            <a href = "client-homepage.html">Client Home</a>
+            <a href = "client-account.html">Account</a>
+        </div>
+
+        <h1>Update Account Information</h1>
+
+        <form id="clientAccountForm">
+            <label for="clientName">Name</label>
+            <input type="text" id="clientName" name="clientName" placeholder="Update your name" required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="Update your address" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Update your phone number" required>
+
+            <button type="submit">Update Account Info</button>
+        </form>
     </body>
 </html>
