@@ -14,6 +14,19 @@ function renderServicesAdmin() {
     });
 }
 
+function renderServicesClient() {
+    const servicesList = document.getElementById('servicesList');
+    servicesList.innerHTML = '';
+    services.forEach((service, index) => {
+        servicesList.innerHTML += `
+            <li>
+                ${service} 
+                <button onclick="removeService(${index})">Request</button>
+            </li>
+        `;
+    });
+}
+
 // Add a new service and update sessionStorage
 function addService() {
     const newService = document.getElementById('newService').value;
@@ -36,17 +49,17 @@ function removeService(index) {
 function updateSessionStorage() {
     sessionStorage.setItem('services', JSON.stringify(services));
 }
-        function renderServicesClient() {
-            const servicesList = document.getElementById('servicesList');
-            servicesList.innerHTML = '';
-            services.forEach((service) => {
-                servicesList.innerHTML += `
-                    <li>
-                        ${service} 
-                    </li>
-                `;
-            });
-        }
+function renderServicesGuest() {
+    const servicesList = document.getElementById('servicesList');
+    servicesList.innerHTML = '';
+    services.forEach((service) => {
+        servicesList.innerHTML += `
+            <li>
+                ${service} 
+            </li>
+        `;
+    });
+}
 
         // Handle form submission for business info
         document.getElementById('businessInfoForm').addEventListener('submit', function(event) {

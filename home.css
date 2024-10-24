@@ -111,6 +111,10 @@ h1, h2 {
     margin-left: 1%;
 }
 
+p {
+    margin-left: 2%;
+}
+
 form {
     margin-left: 2%;
     margin-bottom: 30px;
@@ -163,5 +167,19 @@ button:hover {
 
 .services-section li button {
     background-color: red;
+    padding: 5px;
+}
+
+.services-section-client li {
+    margin: 10px 0;
+    background-color: #f4f4f4;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.services-section-client li button {
+    background-color: #4CAF50;
     padding: 5px;
 }
