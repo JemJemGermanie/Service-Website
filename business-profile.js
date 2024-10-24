@@ -1,37 +1,3 @@
-        /*// Example initial services
-        let services = ["Consulting","Friend","Enemy"];
-    
-        // Function to render services
-        function renderServicesAdmin() {
-            const servicesList = document.getElementById('servicesList');
-            servicesList.innerHTML = '';
-            services.forEach((service, index) => {
-                servicesList.innerHTML += `
-                    <li>
-                        ${service} 
-                        <button onclick="removeService(${index})">Remove</button>
-                    </li>
-                `;
-            });
-        }
-
-        // Add a new service
-        function addService() {
-            const newService = document.getElementById('newService').value;
-            if (newService) {
-                services.push(newService);
-                document.getElementById('newService').value = ''; // Clear input field
-                renderServicesAdmin();
-            }
-        }
-
-        // Remove a service
-        function removeService(index) {
-            services.splice(index, 1); // Remove the selected service
-            renderServicesAdmin();
-        }
-*/
-// Check if services exist in sessionStorage, else initialize a default array
 let services = JSON.parse(sessionStorage.getItem('services')) || ["Consulting", "Customer Support", "Software Development"];
 
 // Function to render services
