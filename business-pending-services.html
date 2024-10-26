@@ -4,15 +4,28 @@
         <title>
             Pending Services
         </title>
-        <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="business-pending-services.css">
+        <script type = "text/javaScript"
+        src = "business-pending-service.js"> </script>
     </head>
 
-    <body>
+    <body onload="renderServices()">
         <div class="top-bar">
             <a href="home.html">Home</a>
             <a href="admin-homepage.html">Admin Home</a>
             <a href="admin-account.html"> Account</a>
         </div>
-        <h1>Pending Services</h1>
+        <div class="page">
+            <div class="service-section">
+                <div class = "pending-services-section">
+                    <h1>Pending Services</h1>
+                    <ul id="PendingServicesList"></ul>            
+                </div>
+                <div class = "unpaid-services-section">
+                    <h1>Unpaid Services</h1>
+                    <ul id="UnpaidServicesList"></ul>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
