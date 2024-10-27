@@ -1,40 +1,88 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const clientName = localStorage.getItem('clientName');
-    if (clientName) {
-        const clients = JSON.parse(localStorage.getItem('clients')) || [];
-        const client = clients.find(c => c.name === clientName);
-        
-        if (client) {
-            document.getElementById('clientName').value = client.name;
-            document.getElementById('address').value = client.address || '';
-            document.getElementById('phone').value = client.phone || '';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account Details</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="client-account.js" defer></script>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-    } else {
-        window.location.href = 'client-login.html'; // Redirect to login if not logged in
-    }
-});
 
-document.getElementById('clientAccountForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    const updatedName = document.getElementById('clientName').value.trim();
-    const updatedAddress = document.getElementById('address').value.trim();
-    const updatedPhone = document.getElementById('phone').value.trim();
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const clientIndex = clients.findIndex(c => c.name === localStorage.getItem('clientName'));
+        .form-container label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-    if (clientIndex !== -1) {
-        clients[clientIndex].name = updatedName;
-        clients[clientIndex].address = updatedAddress;
-        clients[clientIndex].phone = updatedPhone;
+        .form-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-        // Update the client's name in localStorage for session persistence
-        localStorage.setItem('clientName', updatedName);
-        localStorage.setItem('clients', JSON.stringify(clients));
+        .form-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-        alert('Account information updated successfully.');
-    } else {
-        alert('Error: Client not found.');
-    }
-});
+        .form-container .update-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .form-container .delete-button {
+            background-color: red;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="client-homepage.html">Client Page</a>
+        
+    </div>
+
+    <div class="form-container">
+        <h1>Update Account Information</h1>
+
+        <form id="clientAccountForm">
+            <label for="clientName">Name</label>
+            <input type="text" id="clientName" name="clientName" placeholder="Update your name" required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="Update your address" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Update your phone number" required>
+
+            <button type="submit" class="update-button">Update Account Info</button>
+        </form>
+
+        <button id="deleteAccountButton" class="delete-button">
+            Delete Account
+        </button>
+    </div>
+</body>
+</html>
