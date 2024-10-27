@@ -1,27 +1,66 @@
 const clients = [
     {
-        name: "Alice Johnson",
+        name: "Alice Johnson", password: 'password1', 
+        address: "1090 saint-laservices urent", phone : 5145145514,
         services: [
             { name: "Consulting", price: 150 },
             { name: "Software Development", price: 2000 }
         ],
+        services_complete: [
+            { name: "Consulting", price: 250 },
+            { name: "Software Development", price: 2000 }
+        ],
+        services_upcoming: [
+            { name: "Consulting", price: 25 },
+            { name: "Software Development", price: 58 }
+        ],
         pageURL: '/Service-Website/clients/alice-johnson.html'
     },
+    
     {
-        name: "Bob Smith",
+        name: "Bob Smith", password: 'password2',
+        address: "1090 saint-louis", phone : 5145145514,
         services: [
             { name: "Customer Support", price: 100 },
             { name: "Maintenance", price: 300 }
         ],
-        pageURL: '/Service-Website/clients/bob-smith.html'
+        services_complete: [
+            { name: "Consulting", price: 250 },
+            { name: "Software Development", price: 2000 }
+        ],
+        services_upcoming: [
+            { name: "Consulting", price: 350 },
+            { name: "Software Development", price: 2 }
+        ],
+             pageURL: '/Service-Website/clients/bob-smith.html'
     },
     {
-        name: "Charlie Davis",
+        name: "Charlie Davis", password: 'password3',
+        address: "1090 saint-treav", phone : 5146145514,
         services: [
             { name: "Consulting", price: 150 },
             { name: "Customer Support", price: 100 },
             { name: "Software Development", price: 2000 }
         ],
-        pageURL: '/Service-Website/clients/charlie-davis.html'
+        services_complete: [
+            { name: "Consulting", price: 250 },
+            { name: "Software Development", price: 2000 }
+        ],
+        services_upcoming: [
+            { name: "Consulting", price: 2 },
+            { name: "Software Development", price: 200 }
+        ],
+            pageURL: '/Service-Website/clients/charlie-davis.html'
     }
 ];
+
+function saveClientsToLocalStorage() {
+    localStorage.setItem('clients', JSON.stringify(clients));
+}
+
+function getClientsFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('clients')) || [];
+}
+
+// Automatically save the clients data when this script runs
+saveClientsToLocalStorage();
