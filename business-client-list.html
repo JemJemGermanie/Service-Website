@@ -4,15 +4,20 @@
         <title>
             Client List
         </title>
-        <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="business-client-list.css">
     </head>
 
-    <body>
+    <body onload="renderClients()">
         <div class="top-bar">
             <a href="home.html">Home</a>
             <a href="admin-homepage.html">Admin Home</a>
             <a href="admin-account.html"> Account</a>
         </div>
-        <h1>Client List</h1>
+        <div class="page">
+            <h1>Client List and their Services</h1>
+            <div id="ClientList"></div>
+        </div>
+        <script src = "clients-data.js"></script>
+        <script src = "business-client-list.js"></script>
     </body>
 </html>
