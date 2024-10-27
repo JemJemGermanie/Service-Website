@@ -1,19 +1,70 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            Edit Account details
-        </title>
-        <link rel="stylesheet" href="home.css">
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account Details</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="client-account.js" defer></script>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-    <body>
-        <div class="top-bar">
-            <a href = "home.html">Home</a>
-            <a href = "client-homepage.html">Client Home</a>
-            <a href = "client-account.html">Account</a>
-        </div>
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-container label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container .update-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .form-container .delete-button {
+            background-color: red;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="client-homepage.html">Client Page</a>
+        
+    </div>
+
+    <div class="form-container">
         <h1>Update Account Information</h1>
 
         <form id="clientAccountForm">
@@ -26,7 +77,12 @@
             <label for="phone">Phone Number</label>
             <input type="tel" id="phone" name="phone" placeholder="Update your phone number" required>
 
-            <button type="submit">Update Account Info</button>
+            <button type="submit" class="update-button">Update Account Info</button>
         </form>
-    </body>
+
+        <button id="deleteAccountButton" class="delete-button">
+            Delete Account
+        </button>
+    </div>
+</body>
 </html>
