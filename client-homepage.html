@@ -1,39 +1,36 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            Client homepage
-        </title>
-        <link rel="stylesheet" href="client-homepage.css">
-        <script type = "text/javaScript"
-        src = "client-homepage.js"> </script>
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Homepage</title>
+    <link rel="stylesheet" href="client-homepage.css">
+    <script src="client-homepage.js" defer></script>
+</head>
+<body onload="renderServices()">
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="our-services-client.html">Our Services</a>
+        <a href="client-account.html">Account Update</a>
+        <a href="#">About Us</a>
+        <a style="float:right" href="#" onclick="signOut()">Sign out</a>
+    </div>
 
-    <body onload="renderServices()">
-        <div class="top-bar">
-            <a href="home.html">Home</a>
-            <a href="our-services-client.html">Our Services</a>
-            <a href="client-account.html"> Account</a>
-            <a href="#">About Us</a>
-            <a style="float:right"   href="home.html">Sign out</a>
-        </div>
-
-        <div class="page">
-            <div class="services-section">
-                <div class="upcoming-services-section">
-                    <h1>Upcoming services</h1>
-                    <ul id="UpcomingServicesList"></ul>
-                </div>
-                <div class="unpaid-services-section">
-                    <h1>Unpaid Services</h1>
-                    <ul id="UnpaidServicesList"></ul>
-                </div>
-                <div>
-                    <h1>Completed Services</h1>
-                    <ul id="CompletedServicesList"></ul>
-                </div>
+    <div class="page">
+        <div class="services-section">
+            <div class="upcoming-services-section">
+                <h1>Upcoming Services</h1>
+                <ul id="UpcomingServicesList"></ul>
+            </div>
+            <div class="unpaid-services-section">
+                <h1>Unpaid Services</h1>
+                <ul id="UnpaidServicesList"></ul>
+            </div>
+            <div class="completed-services-section">
+                <h1>Completed Services</h1>
+                <ul id="CompletedServicesList"></ul>
             </div>
         </div>
-
-    </body>
+    </div>
+</body>
 </html>
