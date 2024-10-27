@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <title>Client Login</title>
+    <link rel="stylesheet" href="client-homepage.css"> <!-- Reuse existing styles -->
+</head>
+<body>
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="about.html">About Us</a>
+    </div>
+    
+    <div class="login-container">
+        <h1>Client Login</h1>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <p id="error-message" class="error-message"></p>
+    </div>
+
+    <script src="clients-data.js" defer></script>
+    <script src="client-login.js" defer></script>
+</body>
+</html>
