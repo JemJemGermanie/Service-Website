@@ -24,8 +24,18 @@ function renderClients() {
             toggleServices(event);
         });
 
+        const viewClientBtn = document.createElement('button');
+        viewClientBtn.textContent = 'View Client';
+        viewClientBtn.classList.add('view-client-btn');
+        viewClientBtn.dataset.clientIndex = index;
+
+        viewClientBtn.addEventListener('click', () => {
+            window.location.href = client.pageURL;
+        });
+
         clientHeader.appendChild(clientName);
         clientHeader.appendChild(viewServicesBtn);
+        clientHeader.appendChild(viewClientBtn);
         clientDiv.appendChild(clientHeader);
 
         // Services list (initially hidden)
@@ -60,3 +70,4 @@ function toggleServices(event) {
         button.textContent = 'View Services';
     }
 }
+

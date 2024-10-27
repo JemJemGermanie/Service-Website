@@ -117,3 +117,6 @@ button:hover{
     list-style-type: none;
     padding-left: 0;
 }
+.view-services-btn{
+    margin-right: 20px;
+}

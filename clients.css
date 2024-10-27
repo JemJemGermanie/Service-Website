@@ -1,0 +1,185 @@
+/* Basic styles for the navigation bar */
+
+
+/* Top bar styling */
+.top-bar {
+    background-color: #333; /* Dark background */
+    overflow: hidden; /* Clear floats */
+}
+
+/* Style the links inside the navigation bar */
+.top-bar a {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.top-bar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Clearfix (for clearing floats) */
+.top-bar:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.image-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.image-container img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+/* Top bar styling */
+.top-bar {
+    background-color: #333; /* Dark background */
+    overflow: hidden; /* Clear floats */
+}
+
+/* Style the links inside the navigation bar */
+.top-bar a {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.top-bar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Clearfix (for clearing floats) */
+.top-bar:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.button {
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    padding: 12px 24px;
+    margin: 20px 0;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #095f0e;
+}
+
+/* Centering buttons */
+.button-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #333;
+    margin-left: 1%;
+}
+
+p {
+    margin-left: 2%;
+}
+
+form {
+    margin-left: 2%;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, textarea {
+    width: 30%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Services Section */
+.services-section {
+    margin-top: 20px;
+}
+
+.services-section ul {
+    list-style-type: none;
+    margin: 2%;
+    padding: 0;
+}
+
+.services-section li {
+    margin: 10px 0;
+    background-color: #f4f4f4;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+       align-items: center;
+}
+
+.services-section li button {
+    background-color: red;
+    padding: 5px;
+}
+
+.services-section-client li {
+    margin: 10px 0;
+    background-color: #f4f4f4;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.services-section-client li button {
+    background-color: #4CAF50;
+    padding: 5px;
+}
