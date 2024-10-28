@@ -1,4 +1,5 @@
 function signOut() {
+    localStorage.removeItem('adminName'); // Clear the stored client name
     localStorage.removeItem('clientName'); // Clear the stored client name
     localStorage.removeItem('selectedService'); // Clear any selected service data
     window.location.href = 'client-login.html'; // Redirect to login page

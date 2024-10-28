@@ -1,5 +1,25 @@
 let services = JSON.parse(sessionStorage.getItem('services')) || ["Consulting", "Customer Support", "Software Development"];
 
+document.addEventListener('DOMContentLoaded', () => {
+    const companyName = localStorage.getItem('companyName');
+    const companyAddress = localStorage.getItem('companyAddress');
+    const companyPhone = localStorage.getItem('companyPhone');
+            document.getElementById('companyName').value = companyName;
+            document.getElementById('companyAddress').value = companyAddress;
+            document.getElementById('companyPhone').value = companyPhone;
+    
+});
+
+function updateBusinessInfo(){
+    const updatedName = document.getElementById('companyName').value.trim();
+    const updatedAddress = document.getElementById('companyAddress').value.trim();
+    const updatedPhone = document.getElementById('companyPhone').value.trim();
+    localStorage.setItem('companyName',updatedName);
+    localStorage.setItem('companyAddress',updatedAddress);
+    localStorage.setItem('companyPhone',updatedPhone);
+
+};
+
 // Function to render services
 function renderServicesAdmin() {
     const servicesList = document.getElementById('servicesList');

@@ -5,16 +5,20 @@
             Admin homepage
         </title>
         <link rel="stylesheet" href="home.css">
+        <script src="admin-homepage.js" defer></script>
     </head>
 
-    <body>
+    <body onload="loadAccount()">
         <div class="top-bar">
             <a href="home.html">Home</a>
             <a href="our-services.html">Our Services</a>
             <a href="admin-account.html"> Account</a>
             <a href="#">About Us</a>
-            <a style="float:right"   href="home.html">Sign out</a>
+            <a style="float:right" href="#" onclick="signOut()">Sign out</a>
         </div>
-    
+        <div class="amdin-welcome">
+            <h1>Admin home</h1>
+            <ul id="adminInfo"></ul>
+        </div>
     </body>
 </html>
