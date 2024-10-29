@@ -20,3 +20,12 @@ function handleLogin(event) {
         errorMessage.textContent = "Invalid name or password. Please try again.";
     }
 }
+
+function checkLog(){
+    if (localStorage.getItem("logFl")==1){
+        window.location.href = 'client-homepage.html';
+    }
+    else if (localStorage.getItem("logFl")==2){
+        window.location.href = 'admin-homepage.html';
+    }
+}

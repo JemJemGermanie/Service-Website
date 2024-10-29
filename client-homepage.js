@@ -2,6 +2,7 @@ function signOut() {
     localStorage.removeItem('adminName'); // Clear the stored client name
     localStorage.removeItem('clientName'); // Clear the stored client name
     localStorage.removeItem('selectedService'); // Clear any selected service data
+    localStorage.setItem('logFl',0);
     window.location.href = 'client-login.html'; // Redirect to login page
 }
 
@@ -10,7 +11,7 @@ function renderServices() {
     const clientName = localStorage.getItem('clientName');
     const clients = JSON.parse(localStorage.getItem('clients')) || [];
     const client = clients.find(c => c.name === clientName);
-
+    localStorage.setItem('logFl',1);
     console.log('Rendering services for client:', JSON.stringify(client, null, 2));
 
     if (client) {

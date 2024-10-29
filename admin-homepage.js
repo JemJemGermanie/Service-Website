@@ -2,6 +2,7 @@ function signOut() {
     localStorage.removeItem('adminName'); // Clear the stored client name
     localStorage.removeItem('clientName'); // Clear the stored client name
     localStorage.removeItem('selectedService'); // Clear any selected service data
+    localStorage.setItem('logFl',0);
     window.location.href = 'admin-login.html'; // Redirect to login page
 }
 
@@ -11,6 +12,7 @@ function loadAccount() {
     const admins = JSON.parse(localStorage.getItem('admins')) || [];
     const admin = admins.find(c => c.name === adminName);
 
+    localStorage.setItem('logFl',2);
     console.log('Saving admin info:', JSON.stringify(admin, null, 2));
 
     if (admin) {
