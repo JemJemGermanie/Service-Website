@@ -41,3 +41,7 @@ document.getElementById('clientAccountForm').addEventListener('submit', function
         alert('Error: Client not found.');
     }
 });
+document.getElementById("deleteAccountButton").addEventListener("click", function(){
+    alert('Account successfully deleted');
+    window.location.href = "sign-out.html";
+});
