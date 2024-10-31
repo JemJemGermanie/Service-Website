@@ -1,7 +1,7 @@
 const services = ["Consulting", "Customer Support", "Software Development"];
 
 function saveServicesToLocalStorage(){
-    localStorage.setItem('services', services);
+    localStorage.setItem('services', JSON.stringify(services));
 }
 
 const companyName='Business'
@@ -12,7 +12,6 @@ function saveBusinessToLocalStorage() {
     localStorage.setItem('companyName', companyName);
     localStorage.setItem('companyAddress', companyAddress);
     localStorage.setItem('companyPhone', companyPhone);
-
 }
 
 const clients = [

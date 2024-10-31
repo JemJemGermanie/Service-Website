@@ -1,4 +1,4 @@
-let services = JSON.parse(localStorage.getItem('services'));
+const services = JSON.parse(localStorage.getItem('services'));
 
 document.addEventListener('DOMContentLoaded', () => {
     const companyName = localStorage.getItem('companyName');
