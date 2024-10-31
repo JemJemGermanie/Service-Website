@@ -53,7 +53,7 @@ function addService() {
     if (newService) {
         services.push(newService); // Add new service to the array
         document.getElementById('newService').value = ''; // Clear input field
-        updateLocalStorage(); // Update local storage with the new services array
+        updateLoaclStorage(); // Update local storage with the new services array
         renderServicesAdmin(); // Re-render the services list
     }
 }
