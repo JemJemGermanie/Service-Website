@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('clientName').value = client.name;
             document.getElementById('address').value = client.address || '';
             document.getElementById('phone').value = client.phone || '';
+            document.getElementById('password').value = client.password || '';
         }
     } else {
         window.location.href = 'client-login.html'; // Redirect to login if not logged in
@@ -20,6 +21,7 @@ document.getElementById('clientAccountForm').addEventListener('submit', function
     const updatedName = document.getElementById('clientName').value.trim();
     const updatedAddress = document.getElementById('address').value.trim();
     const updatedPhone = document.getElementById('phone').value.trim();
+    const updatedPassword = document.getElementById('password').value.trim();
 
     const clients = JSON.parse(localStorage.getItem('clients')) || [];
     const clientIndex = clients.findIndex(c => c.name === localStorage.getItem('clientName'));
@@ -28,6 +30,7 @@ document.getElementById('clientAccountForm').addEventListener('submit', function
         clients[clientIndex].name = updatedName;
         clients[clientIndex].address = updatedAddress;
         clients[clientIndex].phone = updatedPhone;
+        clients[clientIndex].password = updatedPassword;
 
         // Update the client's name in localStorage for session persistence
         localStorage.setItem('clientName', updatedName);
