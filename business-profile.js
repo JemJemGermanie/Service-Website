@@ -61,13 +61,13 @@ function addService() {
 // Remove a service and update sessionStorage
 function removeService(index) {
     services.splice(index, 1); // Remove the selected service from the array
-    updateSessionStorage(); // Update session storage with the modified services array
+    updateLocalStorage(); // Update session storage with the modified services array
     renderServicesAdmin(); // Re-render the services list
 }
 
 // Function to update sessionStorage with the current services array
-function updateSessionStorage() {
-    sessionStorage.setItem('services', JSON.stringify(services));
+function updateLocalStorage() {
+    localStorage.setItem('services', JSON.stringify(services));
 }
 function renderServicesGuest() {
     const servicesList = document.getElementById('servicesList');
