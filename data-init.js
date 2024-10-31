@@ -1,3 +1,20 @@
+const services = ["Consulting", "Customer Support", "Software Development"];
+
+function saveServicesToLocalStorage(){
+    localStorage.setItem('services', services);
+}
+
+const companyName='Business'
+const companyAddress="place"
+const companyPhone=5145564632
+
+function saveBusinessToLocalStorage() {
+    localStorage.setItem('companyName', companyName);
+    localStorage.setItem('companyAddress', companyAddress);
+    localStorage.setItem('companyPhone', companyPhone);
+
+}
+
 const clients = [
     {
         name: "Alice Johnson", password: 'password1', 
@@ -62,5 +79,9 @@ function getClientsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('clients')) || [];
 }
 
+// Automatically save the services data when this script runs
+saveServicesToLocalStorage();
+// Automatically save the business data when this script runs
+saveBusinessToLocalStorage();
 // Automatically save the clients data when this script runs
 saveClientsToLocalStorage();

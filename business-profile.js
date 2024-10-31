@@ -1,4 +1,4 @@
-let services = JSON.parse(localStorage.getItem('services')) || ["Consulting", "Customer Support", "Software Development"];
+let services = JSON.parse(localStorage.getItem('services'));
 
 document.addEventListener('DOMContentLoaded', () => {
     const companyName = localStorage.getItem('companyName');
@@ -41,7 +41,7 @@ function renderServicesClient() {
         servicesList.innerHTML += `
             <li>
                 ${service} 
-                <button onclick="removeService(${index})">Request</button>
+                <button onclick="requestService(${index})">Request</button>
             </li>
         `;
     });
@@ -58,6 +58,9 @@ function addService() {
     }
 }
 
+function requestService(index){
+    alert("You have requested the service");
+}
 // Remove a service and update sessionStorage
 function removeService(index) {
     services.splice(index, 1); // Remove the selected service from the array
