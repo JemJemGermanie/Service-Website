@@ -1,3 +1,5 @@
+const clients = JSON.parse(localStorage.getItem('clients'));
+
 function renderClients() {
     const clientsList = document.getElementById('ClientList');
     clientsList.innerHTML = '';
