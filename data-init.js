@@ -30,7 +30,7 @@ const clients = [
             { name: "Consulting", price: 25 },
             { name: "Software Development", price: 58 }
         ],
-        pageURL: '/Service-Website/clients/alice-johnson.html'
+        pageURL: 'alice-johnson.html'
     },
     
     {
@@ -48,7 +48,7 @@ const clients = [
             { name: "Consulting", price: 350 },
             { name: "Software Development", price: 2 }
         ],
-             pageURL: '/Service-Website/clients/bob-smith.html'
+             pageURL: 'bob-smith.html'
     },
     {
         name: "Charlie Davis", password: 'password3',
@@ -66,7 +66,7 @@ const clients = [
             { name: "Consulting", price: 2 },
             { name: "Software Development", price: 200 }
         ],
-            pageURL: '/Service-Website/clients/charlie-davis.html'
+            pageURL: 'charlie-davis.html'
     }
 ];
 

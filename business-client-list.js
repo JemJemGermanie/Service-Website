@@ -17,7 +17,7 @@ function renderClients() {
         clientName.textContent = client.name;
 
         const viewServicesBtn = document.createElement('button');
-        viewServicesBtn.textContent = 'View Services';
+        viewServicesBtn.textContent = 'View Upcoming Services';
         viewServicesBtn.classList.add('view-services-btn');
         viewServicesBtn.dataset.clientIndex = index; // Store client index
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Homepage</title>
+    <link rel="stylesheet" href="client-homepage.css">
+    <style>
+        .clientInfo {
+            max-width: 600px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="admin-homepage.html">Home</a>
+        <a href="business-client-list.html">View clients</a>
+        <a style="float:right" href="sign-out.html">Sign out</a>
+    </div>
+    <div class="page">
+        <ul id="clientInfo" class="clientInfo">
+            <h2>Bob Smith</h2>
+            <h3>1090 saint-louis</h3>
+            <h3>5145145514</h3>
+        </ul>
+        </div>
+        <br>
+        <div class="services-section">
+            <div class="upcoming-services-section">
+                <h1>Upcoming Services</h1>
+                <ul id="UpcomingServicesList">
+                    <li class="service-item">
+                        Customer Support - $100.00
+                    </li>
+                    <li class="service-item">
+                        Maintenance - $300.00
+                    </li>
+                </ul>
+            </div>
+            <div class="unpaid-services-section">
+                <h1>Unpaid Services</h1>
+                <ul id="UnpaidServicesList"></ul>
+            </div>
+            <div class="completed-services-section">
+                <h1>Completed Services</h1>
+                <ul id="CompletedServicesList"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
