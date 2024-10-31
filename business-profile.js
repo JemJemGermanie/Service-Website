@@ -1,4 +1,4 @@
-let services = JSON.parse(sessionStorage.getItem('services')) || ["Consulting", "Customer Support", "Software Development"];
+let services = JSON.parse(localStorage.getItem('services')) || ["Consulting", "Customer Support", "Software Development"];
 
 document.addEventListener('DOMContentLoaded', () => {
     const companyName = localStorage.getItem('companyName');
