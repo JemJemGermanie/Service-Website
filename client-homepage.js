@@ -1,11 +1,3 @@
-function signOut() {
-    localStorage.removeItem('adminName'); // Clear the stored client name
-    localStorage.removeItem('clientName'); // Clear the stored client name
-    localStorage.removeItem('selectedService'); // Clear any selected service data
-    localStorage.setItem('logFl',0);
-    window.location.href = 'client-login.html'; // Redirect to login page
-}
-
 // Function to render services
 function renderServices() {
     const clientName = localStorage.getItem('clientName');
