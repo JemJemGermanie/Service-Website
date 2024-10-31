@@ -4,7 +4,7 @@ body, .page {
     padding: 0;
 }
 
-/* Top bar styling */
+
 .top-bar {
     background-color: #333;
     overflow: hidden;
@@ -21,12 +21,12 @@ body, .page {
     color: black;
 }
 
-/* Heading styling */
+
 h1 {
     color: #333;
 }
 
-/* Services section */
+
 .service-section ul {
     list-style-type: none;
     padding: 0;
@@ -40,7 +40,7 @@ h1 {
     align-items: center;
 }
 
-/* Button styling for each section */
+
 .pending-services-section button {
     background-color: green;
     color: white;
@@ -56,7 +56,7 @@ h1 {
     cursor: pointer;
 }
 
-/* Styling for no data messages */
+
 .no-data-message {
     color: #888;
     font-style: italic;
