@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Past Services
-        </title>
-        <link rel="stylesheet" href="home.css">
-    </head>
+<head>
+    <title>Past Services</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="admin-homepage.html">Home</a>
+        <a href="our-services-admin.html">Our Services</a>
+        <a style="float:right" href="sign-out.html">Sign out</a>
+    </div>
 
-    <body>
-        <div class="top-bar">
-            <a href="admin-homepage.html">Home</a>
-            <a href="our-services-admin.html">Our Services</a>
-            <a style="float:right" href="sign-out.html">Sign out</a>
-        </div>
-        <h1>Past services</h1>
-    </body>
+    <h1>Past Services</h1>
+    <div id="pastServicesList"></div>
+
+    <script>
+        function getClientsFromLocalStorage() {
+            return JSON.parse(localStorage.getItem('clients')) || [];
+        }
+    
+        const clients = getClientsFromLocalStorage();
+    
+        const pastServicesContainer = document.getElementById('pastServicesList');
+
+        clients.forEach(function(client) {
+
+            if (client.services_complete && client.services_complete.length > 0) {
+
+                pastServicesContainer.innerHTML += '<h2>' + client.name + '</h2>';
+                
+                pastServicesContainer.innerHTML += '<ul>';
+                
+                client.services_complete.forEach(function(service) {
+                    pastServicesContainer.innerHTML += '<li>' + service.name + ' - $' + service.price + '</li>';
+                });
+                
+                pastServicesContainer.innerHTML += '</ul>';
+            }
+        });
+    </script>
+</body>
 </html>
