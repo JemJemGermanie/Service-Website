@@ -1,0 +1,25 @@
+Completed Features
+
+Website Skeletons
+Homepage
+Admin/Client Sign up, Log in, & Sign out functionality
+Client search & request serves
+Admin & Client homepage
+Services page
+Admin manage business
+Client display services
+Client cancel services
+Admin view clients
+Admin view pending, unpaid, completed services
+Client & Business update account details
+
+
+TO-DO Features
+
+Set up NodeJS server
+Database code integration (Express)
+Setup API endpoints
+User authentication & authorization
+Client-side integration (replace localStorage operations with API calls)
+API request error handling
+Website testing
