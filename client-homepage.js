@@ -15,6 +15,11 @@ function renderServices() {
     console.log('Rendering services for client:', JSON.stringify(client, null, 2));
 
     if (client) {
+        clientInfo.innerHTML += `
+        <h2>
+        Welcome, ${clientName}
+        </h2>
+    `;
         const UpcomingServicesList = document.getElementById("UpcomingServicesList");
         const UnpaidServicesList = document.getElementById("UnpaidServicesList");
         const CompletedServicesList = document.getElementById("CompletedServicesList");
