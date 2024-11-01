@@ -23,3 +23,9 @@ User authentication & authorization
 Client-side integration (replace localStorage operations with API calls)
 API request error handling
 Website testing
+
+User Installation Guide:
+Since this deliverable is focused on the frontend, a guide to deploy the website doesnt really apply,
+due to the lack of backend implementation. However, as most of the data is hard-coded, and initialized
+on the home page, if one would like to tweak this base data relating to business info, offered
+services, and client info, they can access the data-init.js file and modify the values there.
