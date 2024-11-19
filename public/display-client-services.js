@@ -1,13 +1,14 @@
-function getClientsFromLocalStorage(){
-    return JSON.parse(localStorage.getItem('clients')) || [];
+async function getClients() {
+    const response = await fetch('/clients');
+    return response.json();
 }
-function displayClientInfo(){
-    const clients = getClientsFromLocalStorage();
 
+async function displayClientInfo() {
+    const clients = await getClients();
     const currentPathURL = window.location.pathname;
     const client = clients.find(c => c.pageURL === currentPathURL);
 
-    if(client){
+    if (client) {
         document.getElementById("clientInfo").innerHTML = `
             <h2>Services</h2>
             <ul>
@@ -21,9 +22,8 @@ function displayClientInfo(){
             <ul>
                 ${client.services_upcoming.map(service => `<li>${service.name}: $${service.price}</li>`).join('')}
             </ul>
-            `;
-    }
-    else {
+        `;
+    } else {
         document.getElementById("clientInfo").innerHTML = `<p>Client information not found.</p>`;
     }
 }

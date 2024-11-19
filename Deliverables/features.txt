@@ -23,6 +23,7 @@ User authentication & authorization
 Client-side integration (replace localStorage operations with API calls)
 API request error handling
 Website testing
+JS script to create an html page for new clients
 
 User Installation Guide:
 Since this deliverable is focused on the frontend, a guide to deploy the website doesnt really apply,

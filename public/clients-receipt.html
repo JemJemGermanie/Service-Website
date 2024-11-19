@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .receipt-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: pink;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .client-details, .service-details {
+            margin-bottom: 20px;
+        }
+
+        .client-details p, .service-details p {
+            margin: 5px 0;
+        }
+
+        .back-button {
+            text-align: center;
+        }
+
+        .back-button button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h1>Receipt</h1>
+        <div class="client-details">
+            <p><strong>Client Name:</strong> <span id="clientName"></span></p>
+            <p><strong>Date:</strong> <span id="receiptDate"></span></p>
+        </div>
+        <div class="service-details">
+            <p><strong>Service:</strong> <span id="serviceName"></span></p>
+            <p><strong>Amount Paid:</strong> <span id="serviceAmount"></span></p>
+        </div>
+        <div class="back-button">
+            <button onclick="goBack()">Back to Homepage</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectedService = JSON.parse(localStorage.getItem('selectedService'));
+            const clientName = localStorage.getItem('clientName');
+
+            if (selectedService && clientName) {
+                document.getElementById('clientName').textContent = clientName;
+                document.getElementById('receiptDate').textContent = new Date().toLocaleDateString();
+                document.getElementById('serviceName').textContent = selectedService.name;
+                document.getElementById('serviceAmount').textContent = `$${selectedService.price.toFixed(2)}`;
+            } else {
+                alert('Service details not found. Redirecting to homepage.');
+                window.location.href = 'client-homepage.html';
+            }
+        });
+
+        function goBack() {
+            window.location.href = 'client-homepage.html';
+        }
+    </script>
+</body>
+</html>
