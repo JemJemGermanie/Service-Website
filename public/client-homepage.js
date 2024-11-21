@@ -1,53 +1,68 @@
+var client;
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/session-details')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('No active session');
+      }
+      return response.json();x
+    })
+    .then(user => {
+      client = user;
+      clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
+      //renderServices(); // Call the renderServices function to display services
+    })
+    .catch(error => {
+      console.error('Error fetching session details:', error);
+      alert('You need to log in first.');
+      window.location.href = '/client-login.html';
+    });
+    
+});
+
 // Function to render services
 function renderServices() {
-    const clientName = localStorage.getItem('clientName');
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const client = clients.find(c => c.name === clientName);
-    localStorage.setItem('logFl',1);
-    console.log('Rendering services for client:', JSON.stringify(client, null, 2));
+  const clientName = localStorage.getItem('clientName');
+  const clients = JSON.parse(localStorage.getItem('clients')) || [];
+  const client = clients.find(c => c.name === clientName);
+  localStorage.setItem('logFl', 1);
+  console.log('Rendering services for client:', JSON.stringify(client, null, 2));
 
-    if (client) {
-        clientInfo.innerHTML += `
-        <h2>
-        Welcome, ${clientName}
-        </h2>
+  if (client) {
+    clientInfo.innerHTML += `
+      <h2>
+      Welcome, ${clientName}
+      </h2>
     `;
-        const UpcomingServicesList = document.getElementById("UpcomingServicesList");
-        const UnpaidServicesList = document.getElementById("UnpaidServicesList");
-        const CompletedServicesList = document.getElementById("CompletedServicesList");
+    const UpcomingServicesList = document.getElementById("UpcomingServicesList");
+    const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+    const CompletedServicesList = document.getElementById("CompletedServicesList");
 
-        // Render Upcoming Services
-        UpcomingServicesList.innerHTML = client.services_upcoming.map((service, index) => `
-            <li class="service-item">
-                ${service.name} - $${service.price.toFixed(2)}
-                <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
-            </li>
-        `).join('');
+    // Render Upcoming Services
+    UpcomingServicesList.innerHTML = client.services_upcoming.map((service, index) => `
+      <li class="service-item">
+        ${service.name} - $${service.price.toFixed(2)}
+        <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
+      </li>
+    `).join('');
 
-        // Render Unpaid Services
-        UnpaidServicesList.innerHTML = client.services.map((service, index) => `
-            <li class="service-item">
-                ${service.name} - $${service.price.toFixed(2)}
-                <div class="action-buttons">
-                    <button class="action-button pay-button" onclick="moveCompletedService(${index})">Pay Bill</button>
-                    <button class="action-button view-button" onclick="viewBill(${index})">View Bill</button>
-                </div>
-            </li>
-        `).join('');
+    // Render Unpaid Services
+    UnpaidServicesList.innerHTML = client.services.map((service, index) => `
+      <li class="service-item">
+        ${service.name} - $${service.price.toFixed(2)}
+        <div class="action-buttons">
+          <button class="action-button pay-button" onclick="payForService(${index})">Pay Now</button>
+        </div>
+      </li>
+    `).join('');
 
-        // Render Completed Services
-        CompletedServicesList.innerHTML = client.services_complete.map((service, index) => `
-            <li class="completed-service">
-                ${service.name} - $${service.price.toFixed(2)}
-                <button class="action-button receipt-button" onclick="viewReceipt(${index})">View Receipt</button>
-            </li>
-        `).join('');
-
-        console.log('Completed services rendered:', CompletedServicesList.innerHTML);
-    } else {
-        alert('Client not found. Please log in again.');
-        window.location.href = 'client-login.html';
-    }
+    // Render Completed Services
+    CompletedServicesList.innerHTML = client.services_complete.map((service, index) => `
+      <li class="service-item">
+        ${service.name} - $${service.price.toFixed(2)}
+      </li>
+    `).join('');
+  }
 }
 
 // Function to view bill details
