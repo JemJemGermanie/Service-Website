@@ -1,45 +1,55 @@
 var client;
+var UpcomingServices;
+var UnpaidServices;
+var CompletedServices;
+
 document.addEventListener('DOMContentLoaded', () => {
   fetch('/session-details')
     .then(response => {
       if (!response.ok) {
         throw new Error('No active session');
       }
-      return response.json();x
+      return response.json();
     })
     .then(user => {
-      client = user;
-      clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
-      //renderServices(); // Call the renderServices function to display services
+        client = user;
+        clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
+        fetch('/orders/' + client.id)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching orders');
+                }
+                return response.json();
+            })
+            .then(orders => {
+                UpcomingServices = orders.filter(order => order.status === 0);
+                UnpaidServices = orders.filter(order => order.status === 1);
+                CompletedServices = orders.filter(order => order.status === 2);
+                renderServices();
+            })
+            .catch(error => {
+                console.error('Error fetching orders:', error);
+                alert('Error fetching orders');
+            });
     })
     .catch(error => {
       console.error('Error fetching session details:', error);
       alert('You need to log in first.');
       window.location.href = '/client-login.html';
     });
-    
 });
 
 // Function to render services
 function renderServices() {
-  const clientName = localStorage.getItem('clientName');
-  const clients = JSON.parse(localStorage.getItem('clients')) || [];
-  const client = clients.find(c => c.name === clientName);
-  localStorage.setItem('logFl', 1);
   console.log('Rendering services for client:', JSON.stringify(client, null, 2));
 
   if (client) {
-    clientInfo.innerHTML += `
-      <h2>
-      Welcome, ${clientName}
-      </h2>
-    `;
     const UpcomingServicesList = document.getElementById("UpcomingServicesList");
     const UnpaidServicesList = document.getElementById("UnpaidServicesList");
     const CompletedServicesList = document.getElementById("CompletedServicesList");
 
     // Render Upcoming Services
-    UpcomingServicesList.innerHTML = client.services_upcoming.map((service, index) => `
+    UpcomingServicesList.innerHTML = UpcomingServices.map((service, index) => `
       <li class="service-item">
         ${service.name} - $${service.price.toFixed(2)}
         <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
@@ -47,7 +57,7 @@ function renderServices() {
     `).join('');
 
     // Render Unpaid Services
-    UnpaidServicesList.innerHTML = client.services.map((service, index) => `
+    UnpaidServicesList.innerHTML = UnpaidServices.map((service, index) => `
       <li class="service-item">
         ${service.name} - $${service.price.toFixed(2)}
         <div class="action-buttons">
@@ -57,7 +67,7 @@ function renderServices() {
     `).join('');
 
     // Render Completed Services
-    CompletedServicesList.innerHTML = client.services_complete.map((service, index) => `
+    CompletedServicesList.innerHTML = CompletedServicez.map((service, index) => `
       <li class="service-item">
         ${service.name} - $${service.price.toFixed(2)}
       </li>

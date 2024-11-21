@@ -135,6 +135,23 @@ app.get('/session-details', (req, res) => {
   }
 });
 
+// Gets all orders for a specific user
+app.get('/orders/:clientID', (req, res) => {
+  const { clientID } = req.params;
+  database.query('SELECT * FROM orders WHERE clientID = ?', [clientID], (err, results) => {
+    if (err) {
+      console.log("Error fetching orders: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send("No orders found for this user");
+      return;
+    }
+    res.json(results);
+  });
+});
+
 // Serve the sign-up page
 app.get('/sign-up', (req, res) => {
   res.sendFile(__dirname + '/public/sign-up.html');
