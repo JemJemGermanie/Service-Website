@@ -104,6 +104,28 @@ app.post('/client-login.html', (req, res) => {
   });
 });
 
+app.post('/admin-login.html', (req, res) => {
+  const { name, password } = req.body;
+
+  database.query('SELECT * FROM admins WHERE name = ?', [name], (err, results) => {
+    if (err) {
+      console.log("Error checking for existing client: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    if (results.length > 0) {
+      if (results[0].password === password) {
+        req.session.user = results[0]; // Set the session user
+        res.redirect('/admin-homepage.html');
+      } else {
+        res.status(400).send("Incorrect password");
+      }
+    } else {
+      res.status(404).send("Admin not found");
+    }
+  });
+});
+
 // Endpoint to fetch session details
 app.get('/session-details', (req, res) => {
   if (req.session.user) {
