@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Info Management</title>
     <link rel="stylesheet" href="home.css">
-    <script type = "text/javaScript"
-    src = "business-profile.js"> </script>
-
+    <script type="text/javascript" src="business-profile.js" defer></script>
 </head>
-<body onload="renderServicesAdmin()">
+<body>
     <div class="top-bar">
         <a href="admin-homepage.html">Home</a>
         <a href="our-services-admin.html">Our Services</a>
@@ -17,35 +15,36 @@
     </div>
 
     <div class="page">
-    <h1>Update Business Information</h1>
+        <h1>Update Business Information</h1>
 
-    <!-- Form to change company name, address, and phone number -->
-    <form id="businessInfoForm">
-        <label for="companyName">Company Name</label>
-        <input type="text" id="companyName" name="companyName" placeholder="Enter new company name" required>
+        <!-- Form to change company name, address, and phone number -->
+        <form id="businessInfoForm">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" name="companyName" placeholder="Enter new company name" required>
 
-        <label for="companyAddress">Address</label>
-        <input type="text" id="companyAddress" name="companyAddress" placeholder="Enter new address" required>
+            <label for="companyAddress">Address</label>
+            <input type="text" id="companyAddress" name="companyAddress" placeholder="Enter new address" required>
 
-        <label for="companyPhone">Phone Number</label>
-        <input type="tel" id="companyPhone" name="companyPhone" placeholder="Enter new phone number" required>
+            <label for="companyPhone">Phone Number</label>
+            <input type="tel" id="companyPhone" name="companyPhone" placeholder="Enter new phone number" required>
 
-        <button type="submit" onclick="updateBusinessInfo()">Update Business Info</button>
-    </form>
-
-    <!-- Services section -->
-    <div class="services-section">
-        <h2>Offered Services</h2>
-        <ul id="servicesList"></ul>
-    
-        <form id="addService">
-            <label for="newService"><h2>Add a New Service</h2></label>
-            <input type="text" id="newService" placeholder="Enter new service">
-            <button onclick="addService()">Add Service</button>
+            <button type="submit">Update Business Info</button>
         </form>
 
-        <h2>Discontinued Services</h2>
-        <ul id="discontinuedServicesList"></ul>
+        <!-- Services section -->
+        <div class="services-section">
+            <h2>Offered Services</h2>
+            <ul id="servicesList"></ul>
+
+            <form id="addService">
+                <label for="newService"><h2>Add a New Service</h2></label>
+                <input type="text" id="newService" placeholder="Enter new service">
+                <button type="button" onclick="addService()">Add Service</button>
+            </form>
+
+            <h2>Discontinued Services</h2>
+            <ul id="discontinuedServicesList"></ul>
+        </div>
     </div>
 </body>
 </html>
