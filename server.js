@@ -125,7 +125,7 @@ app.post('/admin-login.html', (req, res) => {
     }
   });
 });
-// Fetch upcoming services (status 1) & unpaid services (status 2)
+// Fetch upcoming services (status 1), unpaid services (status 2), past services (status 3)
 app.get('/orders/:clientID/:status', (req, res) => {
   const { clientID, status } = req.params;
   const query = `

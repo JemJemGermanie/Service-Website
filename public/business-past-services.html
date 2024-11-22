@@ -3,6 +3,7 @@
 <head>
     <title>Past Services</title>
     <link rel="stylesheet" href="home.css">
+    <script src="business-past-service.js" defer></script>
 </head>
 <body>
     <div class="top-bar">
@@ -12,32 +13,10 @@
     </div>
 
     <h1>Past Services</h1>
-    <div id="pastServicesList"></div>
-
-    <script>
-        function getClientsFromLocalStorage() {
-            return JSON.parse(localStorage.getItem('clients')) || [];
-        }
-    
-        const clients = getClientsFromLocalStorage();
-    
-        const pastServicesContainer = document.getElementById('pastServicesList');
-
-        clients.forEach(function(client) {
-
-            if (client.services_complete && client.services_complete.length > 0) {
-
-                pastServicesContainer.innerHTML += '<h2>' + client.name + '</h2>';
-                
-                pastServicesContainer.innerHTML += '<ul>';
-                
-                client.services_complete.forEach(function(service) {
-                    pastServicesContainer.innerHTML += '<li>' + service.name + ' - $' + service.price + '</li>';
-                });
-                
-                pastServicesContainer.innerHTML += '</ul>';
-            }
-        });
-    </script>
+    <div id="pastServicesList">
+        <ul id="pastServicesList">
+            <!-- Past services will be rendered here -->
+        </ul>
+    </div>
 </body>
 </html>
