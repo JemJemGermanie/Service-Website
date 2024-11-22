@@ -3,6 +3,8 @@ const app = express();
 const port = 8080;
 const database = require('./database');
 const session = require('express-session'); // Import express-session
+const fs = require('fs');
+const path = require('path');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
@@ -359,4 +361,44 @@ app.get('/', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+});
+
+// API to fetch business info
+app.get('/api/business-info', (req, res) => {
+  const filePath = path.join(__dirname, 'business-info.txt');
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+          console.error("Error reading business info file:", err);
+          return res.status(500).json({ error: "Failed to read business info" });
+      }
+
+      const lines = data.split('\n').map(line => line.trim());
+      const name = lines[0] || "Unknown Business Name";
+      const address = lines[1] || "Unknown Address";
+      const phone = lines[2] || "0000000000";
+
+      res.json({ name, address, phone });
+  });
+});
+
+app.post('/api/business-info', (req, res) => {
+  const { name, address, phone } = req.body;
+
+  // Basic input validation
+  if (!name || !address || !phone || phone.length < 10 || isNaN(phone)) {
+      return res.status(400).json({ error: "Invalid input. All fields are required and phone must be numeric." });
+  }
+
+  const filePath = path.join(__dirname, 'business-info.txt');
+  const updatedData = `${name}\n${address}\n${phone}`;
+  
+  fs.writeFile(filePath, updatedData, 'utf8', (err) => {
+      if (err) {
+          console.error("Error writing to business info file:", err);
+          return res.status(500).json({ error: "Failed to update business info" });
+      }
+
+      res.json({ message: "Business info updated successfully" });
+  });
 });
