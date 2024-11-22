@@ -1,6 +1,7 @@
 const services = JSON.parse(localStorage.getItem('services'));
 
 document.addEventListener('DOMContentLoaded', () => {
+    fetchBusinessInfo();
     renderServicesGuest();
     renderServicesAdmin(); // Render active services
     renderDiscontinuedServices(); // Render discontinued services
@@ -10,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('companyName').value = companyName;
             document.getElementById('companyAddress').value = companyAddress;
             document.getElementById('companyPhone').value = companyPhone;
+            document.getElementById('businessInfoForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                updateBusinessInfo();
+            });
     
 });
 
@@ -218,3 +223,46 @@ function reactivateService(serviceId, name, price) {
         });
 
         document.getElementById("company").innerHTML=companyName;        
+
+// Fetch business info and populate the form
+function fetchBusinessInfo() {
+    fetch('/api/business-info')
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to fetch business info");
+            return response.json();
+        })
+        .then(data => {
+            console.log("Fetched business info:", data); // Debugging log
+            document.getElementById('companyName').value = data.name;
+            document.getElementById('companyAddress').value = data.address;
+            document.getElementById('companyPhone').value = data.phone;
+        })
+        .catch(error => console.error("Error fetching business info:", error));
+}
+
+// Update business info
+function updateBusinessInfo() {
+    const name = document.getElementById('companyName').value.trim();
+    const address = document.getElementById('companyAddress').value.trim();
+    const phone = document.getElementById('companyPhone').value.trim();
+
+    if (!name || !address || !phone || phone.length < 10 || isNaN(phone)) {
+        alert("Invalid input. Please ensure all fields are filled correctly.");
+        return;
+    }
+
+    fetch('/api/business-info', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, address, phone }),
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to update business info");
+            return response.json();
+        })
+        .then(data => {
+            alert("Business information updated successfully!");
+        })
+        .catch(error => console.error("Error updating business info:", error));
+}
+
