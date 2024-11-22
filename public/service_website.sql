@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2024 at 09:03 PM
+-- Generation Time: Nov 22, 2024 at 09:08 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -54,16 +54,17 @@ CREATE TABLE `clients` (
   `password` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `pageURL` varchar(255) DEFAULT NULL
+  `pageURL` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `pageURL`) VALUES
-(1, 'Sammy Mohellebi', 'sammymohellebi@gmail.com', 'verysecure', '7389 Rue du Tangara', '5146180730', NULL),
-(2, 'Jérémie Beaudoin', 'jeremiebeaudoin1@gmail.com', 'password', '\'1234 silly st\'', '4385018986', NULL);
+INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `pageURL`, `status`) VALUES
+(1, 'Sammy Mohellebi', 'sammymohellebi@gmail.com', 'verysecure', '7389 Rue du Tangara', '5146180730', NULL, 0),
+(2, 'Jérémie Beaudoin', 'jeremiebeaudoin1@gmail.com', 'password', '\'1234 silly st\'', '4385018986', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -73,12 +74,20 @@ INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `p
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `serviceID` int(11) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
   `clientID` int(11) NOT NULL,
   `order_date` date NOT NULL,
   `completion_date` date NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `service`, `price`, `clientID`, `order_date`, `completion_date`, `status`) VALUES
+(1, 'service1', 3, 1, '2024-11-21', '2024-11-29', 0);
 
 -- --------------------------------------------------------
 
@@ -124,8 +133,7 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `clientID` (`clientID`),
-  ADD KEY `serviceID` (`serviceID`);
+  ADD KEY `clientID` (`clientID`);
 
 --
 -- Indexes for table `services`
@@ -147,7 +155,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -163,8 +171,7 @@ ALTER TABLE `services`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `clients` (`id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`serviceID`) REFERENCES `services` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `clients` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -54,9 +54,6 @@ app.post('/sign-up.html', (req, res) => {
     address: address,
     phone: phone,
     email: email,
-    services: JSON.stringify([]), // Ensure these fields are valid JSON strings
-    services_complete: JSON.stringify([]),
-    services_upcoming: JSON.stringify([])
   };
 
   database.query('SELECT * FROM clients WHERE email = ?', [email], (err, results) => {
