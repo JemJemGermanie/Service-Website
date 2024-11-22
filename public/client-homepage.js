@@ -27,10 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 CompletedServices = orders.filter(order => order.status === 2);
                 renderServices();
             })
-            .catch(error => {
-                console.error('Error fetching orders:', error);
-                alert('Error fetching orders');
-            });
     })
     .catch(error => {
       console.error('Error fetching session details:', error);
@@ -49,27 +45,28 @@ function renderServices() {
     const CompletedServicesList = document.getElementById("CompletedServicesList");
 
     // Render Upcoming Services
-    UpcomingServicesList.innerHTML = UpcomingServices.map((service, index) => `
+    UpcomingServicesList.innerHTML = UpcomingServices.map((order, index) => `
       <li class="service-item">
-        ${service.name} - $${service.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)}
         <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
       </li>
     `).join('');
 
     // Render Unpaid Services
-    UnpaidServicesList.innerHTML = UnpaidServices.map((service, index) => `
+    UnpaidServicesList.innerHTML = UnpaidServices.map((order, index) => `
       <li class="service-item">
-        ${service.name} - $${service.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)}
         <div class="action-buttons">
           <button class="action-button pay-button" onclick="payForService(${index})">Pay Now</button>
-        </div>
+            <button class="action-button view-bill-button" onclick="viewBill(${index})">View Bill</button>
+          </div>
       </li>
     `).join('');
 
     // Render Completed Services
-    CompletedServicesList.innerHTML = CompletedServicez.map((service, index) => `
+    CompletedServicesList.innerHTML = CompletedServices.map((order, index) => `
       <li class="service-item">
-        ${service.name} - $${service.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)}
       </li>
     `).join('');
   }
@@ -77,18 +74,49 @@ function renderServices() {
 
 // Function to view bill details
 function viewBill(index) {
-    const clientName = localStorage.getItem('clientName');
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const client = clients.find(c => c.name === clientName);
-
     if (client) {
-        const service = client.services[index];
-        localStorage.setItem('selectedService', JSON.stringify({
-            clientName: client.name,
-            service: service
-        }));
-        window.location.href = 'client-bill.html';
-    } else {
+        const service = UnpaidServices[index];
+        const bill = {
+            client: client.name,
+            service: service.service,
+            price: service.price,
+            order_date: service.order_date,
+            completion_date: service.completion_date
+        }
+//        window.location.href = 'client-bill.html';   IMPLEMENT COOKIES TO PASS DATA TO THE NEXT PAGE
+    }
+    else {
+        alert('Client not found. Please log in again.');
+        window.location.href = 'client-login.html';
+    }
+}
+
+
+function payForService(index) {
+    if (client) {
+        const service = UnpaidServices[index];
+        fetch('/orders/'+`${service.id}`+'/status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                status: 2,
+            })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error paying for service');
+          }
+          return response.json();
+        })
+        .then(() => {
+          alert('Payment successful!');
+          window.location.reload();
+          })
+    }
+
+    else {
         alert('Client not found. Please log in again.');
         window.location.href = 'client-login.html';
     }

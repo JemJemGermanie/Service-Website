@@ -150,19 +150,21 @@ app.get('/orders/:clientID/:status', (req, res) => {
     res.json(results);
   });
 });
+
 //Update order status
-app.put('/orders/:orderID/status', (req, res) => {
+app.post('/orders/:orderID/status', (req, res) => {
   const { orderID } = req.params;
-  const { status } = req.body;
+  const status = req.body;
   database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
     if (err) {
       console.log("Error updating order status: ", err);
       res.status(500).send("Server Error: Status 500");
       return;
     }
-    res.sendStatus(200);
+  res.sendStatus(200);
   });
 });
+
 //Get all services
 app.get('/services', (req,res) =>{
   database.query('SELECT * FROM services', (err,results) =>{
