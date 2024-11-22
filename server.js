@@ -45,6 +45,18 @@ app.get('/clients', (req, res) => {
   });
 });
 
+app.get('/clients/:id', (req, res) => {
+  const {id} = req.params;
+  database.query('SELECT * FROM clients WHERE id = ?', [id], (err, results) => {
+    if(err){
+      console.log("Error checking for existing client: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
 // Add a new client
 app.post('/sign-up.html', (req, res) => {
   const { name, password, address, phone, email } = req.body;
