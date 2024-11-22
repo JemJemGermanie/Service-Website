@@ -125,6 +125,64 @@ app.post('/admin-login.html', (req, res) => {
     }
   });
 });
+// Fetch upcoming services (status 1) & unpaid services (status 2)
+app.get('/orders/:clientID/:status', (req, res) => {
+  const { clientID, status } = req.params;
+  const query = `
+    SELECT orders.id, orders.clientID, orders.order_date, orders.completion_date, orders.status, services.name, services.price
+    FROM orders
+    JOIN services ON orders.serviceID = services.id
+    WHERE orders.clientID = ? AND orders.status = ?
+  `;
+  database.query(query, [clientID, status], (err, results) => {
+    if (err) {
+      console.log("Error fetching orders: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results);
+  });
+});
+//Update order status
+app.put('/orders/:orderID/status', (req, res) => {
+  const { orderID } = req.params;
+  const { status } = req.body;
+  database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
+    if (err) {
+      console.log("Error updating order status: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.sendStatus(200);
+  });
+});
+//Get all services
+app.get('/services', (req,res) =>{
+  database.query('SELECT * FROM services', (err,results) =>{
+    if(err){
+      console.log('Error fetching services', err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results);
+  });
+});
+//Fetch service by id
+app.get('/services/:id', (req,res) =>{
+  const {id} = req.params;
+  database.query('SELECT * FROM services WHERE id = ?', [id], (err,results) =>{
+    if(err){
+      console.log('Error fetching service: ', err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send("Service not found");
+      return;
+    }
+    res.json(results);
+  });
+});
 
 // Endpoint to fetch session details
 app.get('/session-details', (req, res) => {

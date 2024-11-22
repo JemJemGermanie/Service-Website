@@ -24,12 +24,14 @@ body, .page {
 
 h1 {
     color: #333;
+    padding-left: 10px;
 }
 
 
 .service-section ul {
     list-style-type: none;
     padding: 0;
+    padding-left: 10px;
 }
 .service-section li {
     margin: 10px 0;
