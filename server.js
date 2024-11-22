@@ -62,18 +62,24 @@ app.post('/sign-up.html', (req, res) => {
       res.status(500).send("Server Error: Status 500");
       return;
     }
+
     if (results.length > 0) {
+      // If a client with the same email exists
       res.status(400).send("Client with this email already exists");
-      return;
     } else {
-      database.query("INSERT INTO clients SET ?", client, (err, result) => {
-        if (err) {
-          console.log("Error adding client: ", err);
-          res.status(500).send("Server Error: Status 500");
-          return;
+      // Insert new client into the database
+      database.query(
+        "INSERT INTO clients (name, password, address, phone, email) VALUES (?, ?, ?, ?, ?)",
+        [name, password, address, phone, email],
+        (err, result) => {
+          if (err) {
+            console.log("Error adding client: ", err);
+            res.status(500).send("Server Error: Status 500");
+          } else {
+            res.redirect('/sign-up-success.html'); // Redirect to a success page
+          }
         }
-        res.redirect('/sign-up-success.html');
-      });
+      );
     }
   });
 });
@@ -88,10 +94,14 @@ app.post('/client-login.html', (req, res) => {
       res.status(500).send("Server Error: Status 500");
       return;
     }
+
     if (results.length > 0) {
-      if (results[0].password === password) {
-        req.session.user = results[0]; // Set the session user
-        res.redirect('/client-homepage.html');
+      const user = results[0];
+
+      // Compare plain-text passwords
+      if (user.password === password) {
+        req.session.user = user; // Store user in the session
+        res.redirect('/client-homepage.html'); // Redirect to the homepage
       } else {
         res.status(400).send("Incorrect password");
       }
@@ -120,6 +130,64 @@ app.post('/admin-login.html', (req, res) => {
     } else {
       res.status(404).send("Admin not found");
     }
+  });
+});
+// Fetch upcoming services (status 1), unpaid services (status 2), past services (status 3)
+app.get('/orders/:clientID/:status', (req, res) => {
+  const { clientID, status } = req.params;
+  const query = `
+    SELECT orders.id, orders.clientID, orders.order_date, orders.completion_date, orders.status, services.name, services.price
+    FROM orders
+    JOIN services ON orders.serviceID = services.id
+    WHERE orders.clientID = ? AND orders.status = ?
+  `;
+  database.query(query, [clientID, status], (err, results) => {
+    if (err) {
+      console.log("Error fetching orders: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results);
+  });
+});
+//Update order status
+app.put('/orders/:orderID/status', (req, res) => {
+  const { orderID } = req.params;
+  const { status } = req.body;
+  database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
+    if (err) {
+      console.log("Error updating order status: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.sendStatus(200);
+  });
+});
+//Get all services
+app.get('/services', (req,res) =>{
+  database.query('SELECT * FROM services', (err,results) =>{
+    if(err){
+      console.log('Error fetching services', err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results);
+  });
+});
+//Fetch service by id
+app.get('/services/:id', (req,res) =>{
+  const {id} = req.params;
+  database.query('SELECT * FROM services WHERE id = ?', [id], (err,results) =>{
+    if(err){
+      console.log('Error fetching service: ', err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send("Service not found");
+      return;
+    }
+    res.json(results);
   });
 });
 
