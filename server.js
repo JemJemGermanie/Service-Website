@@ -174,6 +174,123 @@ app.get('/services', (req,res) =>{
     res.json(results);
   });
 });
+
+app.get('/api/services', (req, res) => {
+  const query = 'SELECT * FROM services WHERE active = 1';
+  database.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching active services:", err);
+          return res.status(500).send("Server Error");
+      }
+      res.json(results); // Return active services
+  });
+});
+
+// Fetch active services for display
+app.get('/api/services/active', (req, res) => {
+  const query = 'SELECT * FROM services WHERE active = 1';
+  database.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching active services:", err);
+          res.status(500).send("Server Error");
+          return;
+      }
+      res.json(results); // Return active services
+  });
+});
+
+//insert new service
+app.post('/api/services', (req, res) => {
+  const { name, price, description } = req.body;
+
+  if (!name || !price || !description) {
+    return res.status(400).send("All fields are required");
+  }
+
+  const query = 'INSERT INTO services (name, price, description) VALUES (?, ?, ?)';
+  database.query(query, [name, price, description], (err, result) => {
+    if (err) {
+      console.log("Error adding service: ", err);
+      res.status(500).send("Server Error");
+      return;
+    }
+    res.sendStatus(201); // Service added successfully
+  });
+});
+
+app.put('/api/services/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, price, description } = req.body;
+
+  if (!name || !price || !description) {
+      return res.status(400).send("All fields are required!");
+  }
+
+  const query = 'UPDATE services SET name = ?, price = ?, description = ? WHERE id = ?';
+  database.query(query, [name, price, description, id], (err, result) => {
+      if (err) {
+          console.error("Error updating service:", err);
+          return res.status(500).send("Server Error");
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send("Service not found");
+      }
+      res.sendStatus(200); // Update successful
+  });
+});
+
+// Fetch discontinued services
+app.get('/api/services/discontinued', (req, res) => {
+  const query = 'SELECT * FROM services WHERE active = 0';
+  database.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching discontinued services:", err);
+          return res.status(500).send("Server Error");
+      }
+      res.json(results); // Return discontinued services
+  });
+});
+
+// Deactivate a service (move to discontinued)
+app.put('/api/services/:id/deactivate', (req, res) => {
+  const { id } = req.params;
+
+  const query = 'UPDATE services SET active = 0 WHERE id = ?';
+  database.query(query, [id], (err, result) => {
+      if (err) {
+          console.error("Error deactivating service:", err);
+          return res.status(500).send("Server Error");
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send("Service not found");
+      }
+      res.sendStatus(200); // Deactivation successful
+  });
+});
+
+// Reactivate a discontinued service
+app.put('/api/services/:id/reactivate', (req, res) => {
+  const { id } = req.params;
+  const { name, price } = req.body;
+
+  if (!name || !price) {
+      return res.status(400).send("Both name and price are required!");
+  }
+
+  const query = 'UPDATE services SET name = ?, price = ?, active = 1 WHERE id = ?';
+  database.query(query, [name, price, id], (err, result) => {
+      if (err) {
+          console.error("Error reactivating service:", err);
+          return res.status(500).send("Server Error");
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send("Service not found");
+      }
+      res.sendStatus(200); // Reactivation successful
+  });
+});
+
+
 //Fetch service by id
 app.get('/services/:id', (req,res) =>{
   const {id} = req.params;
