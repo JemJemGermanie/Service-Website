@@ -114,6 +114,10 @@ function payForService(index) {
           alert('Payment successful!');
           window.location.reload();
           })
+            .catch(error => {
+                console.error('Error paying for service:', error);
+                alert('Error paying for service. Please try again.');
+        });
     }
 
     else {
