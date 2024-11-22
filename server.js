@@ -48,35 +48,32 @@ app.get('/clients', (req, res) => {
 // Add a new client
 app.post('/sign-up.html', (req, res) => {
   const { name, password, address, phone, email } = req.body;
-  const client = {
-    name: name,
-    password: password,
-    address: address,
-    phone: phone,
-    email: email,
-    services: JSON.stringify([]), // Ensure these fields are valid JSON strings
-    services_complete: JSON.stringify([]),
-    services_upcoming: JSON.stringify([])
-  };
 
+  // Check if a user with the same email already exists
   database.query('SELECT * FROM clients WHERE email = ?', [email], (err, results) => {
     if (err) {
       console.log("Error checking for existing client: ", err);
       res.status(500).send("Server Error: Status 500");
       return;
     }
+
     if (results.length > 0) {
+      // If a client with the same email exists
       res.status(400).send("Client with this email already exists");
-      return;
     } else {
-      database.query("INSERT INTO clients SET ?", client, (err, result) => {
-        if (err) {
-          console.log("Error adding client: ", err);
-          res.status(500).send("Server Error: Status 500");
-          return;
+      // Insert new client into the database
+      database.query(
+        "INSERT INTO clients (name, password, address, phone, email) VALUES (?, ?, ?, ?, ?)",
+        [name, password, address, phone, email],
+        (err, result) => {
+          if (err) {
+            console.log("Error adding client: ", err);
+            res.status(500).send("Server Error: Status 500");
+          } else {
+            res.redirect('/sign-up-success.html'); // Redirect to a success page
+          }
         }
-        res.redirect('/sign-up-success.html');
-      });
+      );
     }
   });
 });
@@ -91,10 +88,14 @@ app.post('/client-login.html', (req, res) => {
       res.status(500).send("Server Error: Status 500");
       return;
     }
+
     if (results.length > 0) {
-      if (results[0].password === password) {
-        req.session.user = results[0]; // Set the session user
-        res.redirect('/client-homepage.html');
+      const user = results[0];
+
+      // Compare plain-text passwords
+      if (user.password === password) {
+        req.session.user = user; // Store user in the session
+        res.redirect('/client-homepage.html'); // Redirect to the homepage
       } else {
         res.status(400).send("Incorrect password");
       }
