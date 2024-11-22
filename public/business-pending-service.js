@@ -27,11 +27,11 @@ async function renderServices() {
             if (upcomingServices.length > 0) {
                 PendingServicesList.innerHTML += `<h2>${client.name}</h2><ul>`;
                 upcomingServices.forEach((service) => {
-                    const formattedDate = new Date(service.completion_date).toLocaleDateString();
+                    const formattedDate = new Date(service.order_date).toLocaleDateString();
                     console.log(`Upcoming Service: ${service.name}, Status: ${service.status}`);
                     PendingServicesList.innerHTML += `
                         <li>
-                            ${service.name} - $${service.price} - Completion Date: ${formattedDate}
+                            ${service.name} - $${service.price} - Order Date: ${formattedDate}
                             <button onclick="moveCompletedService(${service.id})">Completed Service</button>
                         </li>
                     `;

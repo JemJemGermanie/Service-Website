@@ -106,7 +106,7 @@ body {
     padding: 0;
 }
 
-h1, h2 {
+h1, h2, h3 {
     color: #333;
     margin-left: 1%;
 }
@@ -226,3 +226,68 @@ button:hover {
     background-color: #4CAF50;
     color: white;
 }
+
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.service-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.service-item button:hover {
+    background-color: darkred;
+}
+
+
+
+
+/* Style the list of services */
+.our-services ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style each service item */
+.our-services ul li {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Service name and price */
+.our-services ul li span {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Service description */
+.our-services ul li p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+
+
+
+

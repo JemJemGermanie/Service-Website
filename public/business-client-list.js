@@ -49,7 +49,7 @@ async function renderClients() {
             viewClientBtn.dataset.clientIndex = client.id;
 
             viewClientBtn.addEventListener('click', () => {
-                window.location.href = client.pageURL;
+                window.location.href = `client-info.html?id=${client.id}`;
             });
 
             clientHeader.appendChild(clientName);

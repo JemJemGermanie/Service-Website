@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>
-            Service Website
-        </title>
+        <title>Service Website</title>
         <link rel="stylesheet" href="home.css">
+        <script>
+            // Fetch and update business information
+            document.addEventListener("DOMContentLoaded", () => {
+                fetch('/api/business-info')
+                    .then(response => {
+                        if (!response.ok) throw new Error("Failed to fetch business info");
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Update business name, address, and phone dynamically
+                        const businessNameElement = document.getElementById('businessName');
+                        const businessAddressElement = document.getElementById('businessAddress');
+                        const businessPhoneElement = document.getElementById('businessPhone');
+                        
+                        if (businessNameElement) {
+                            businessNameElement.textContent = `Welcome to ${data.name}'s website`;
+                        }
+                        if (businessAddressElement) {
+                            businessAddressElement.textContent = `Address: ${data.address}`;
+                        }
+                        if (businessPhoneElement) {
+                            businessPhoneElement.textContent = `Phone Number: ${data.phone}`;
+                        }
+                    })
+                    .catch(error => console.error("Error fetching business info:", error));
+            });
+        </script>
     </head>
 
     <body>
-        <!-- Top navigation bar -->
+    
         <div class="top-bar">
             <a href="home.html">Home</a>
             <a href="client-login.html">Client Login</a>
@@ -17,14 +42,17 @@
             <a style="float: right" href="sign-up.html">Sign Up</a>
         </div>
     
-        <!-- Content of the page -->
+
         <div style="padding:20px;">
-            <h1>Welcome to Business' website</h1>
-            <p>This is a sample service webpage.</p>
+            <h1 id="businessName">Welcome to Business' website</h1>
+            <h3 id="businessAddress">Address: Not Available</h3>
+            <h3 id="businessPhone">Phone: Not Available</h3>
         </div>
         <div class="image-container">
             <img src="business.jpeg" alt="Businesswoman" />
         </div>
+
+
+
     </body>
-    <script src="data-init.js" defer></script>
 </html>
