@@ -45,7 +45,7 @@
                                 <h3>${service.name}</h3>
                                 <p>${service.description}</p>
                                 <p>Price: $${service.price}</p>
-                                <button onclick="requestService(${service.id})">Request Service</button>
+                                <button onclick="requestService('${service.name}',${service.price})">Request Service</button>
                             </div>
                         `;
                         servicesList.appendChild(li);
@@ -54,14 +54,15 @@
                 .catch(error => console.error('Error fetching active services:', error));
         }
 
-        function requestService(serviceId) {
+        function requestService(serviceName,servicePrice) {
             const orderDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
             const orderData = {
                 clientID: clientId,
-                serviceID: serviceId,
+                service: serviceName,
+                price: servicePrice,
                 order_date: orderDate,
-                completion_date: '0000-00-00',
-                status: 1
+                completion_date: "0000-00-00",
+                status: 0
             };
 
             fetch('/api/orders', {
