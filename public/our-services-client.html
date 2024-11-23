@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="home.css">
     <script defer>
         let clientId; // Assumes the client session is already validated
+        let orderDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
+
 
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/session-details')
@@ -45,7 +47,11 @@
                                 <h3>${service.name}</h3>
                                 <p>${service.description}</p>
                                 <p>Price: $${service.price}</p>
-                                <button onclick="requestService('${service.name}',${service.price})">Request Service</button>
+                                <form onsubmit="event.preventDefault(); requestService('${service.name}', ${service.price}, this.date.value);">
+                                    <label for="serviceDate-${service.name}">Select Date:</label>
+                                    <input type="date" name="date" id="serviceDate-${service.name}" min="${orderDate}" required />
+                                    <button type="submit">Request Service</button>
+                                </form>
                             </div>
                         `;
                         servicesList.appendChild(li);
@@ -54,14 +60,13 @@
                 .catch(error => console.error('Error fetching active services:', error));
         }
 
-        function requestService(serviceName,servicePrice) {
-            const orderDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
+        function requestService(serviceName,servicePrice, serviceDate) {
             const orderData = {
                 clientID: clientId,
                 service: serviceName,
                 price: servicePrice,
                 order_date: orderDate,
-                completion_date: "0000-00-00",
+                completion_date: serviceDate,
                 status: 0
             };
 
