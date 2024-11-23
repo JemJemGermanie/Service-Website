@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 22, 2024 at 02:46 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Host: localhost
+-- Generation Time: Nov 23, 2024 at 07:24 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,16 +54,18 @@ CREATE TABLE `clients` (
   `password` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `pageURL` varchar(255) DEFAULT NULL
+  `pageURL` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `pageURL`) VALUES
-(1, 'Sammy Mohellebi', 'sammymohellebi@gmail.com', 'verysecure', '7389 Rue du Tangara', '5146180730', NULL),
-(2, 'Jérémie Beaudoin', 'jeremiebeaudoin1@gmail.com', 'password', '\'1234 silly st\'', '4385018986', NULL);
+INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `pageURL`, `status`) VALUES
+(1, 'Sammy Mohellebi', 'sammymohellebi@gmail.com', 'verysecure', '7389 Rue du Tangara', '5146180730', NULL, 0),
+(2, 'Jérémie Beaudoin', 'jeremiebeaudoin1@gmail.com', 'password', '\'1234 silly st\'', '4385018986', NULL, 0),
+(11, 'big', 'big@man', 'password', '533 w', '333', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,8 @@ INSERT INTO `clients` (`id`, `name`, `email`, `password`, `address`, `phone`, `p
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `serviceID` int(11) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
   `clientID` int(11) NOT NULL,
   `order_date` date NOT NULL,
   `completion_date` date NOT NULL,
@@ -84,10 +87,10 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `serviceID`, `clientID`, `order_date`, `completion_date`, `status`) VALUES
-(1, 1, 1, '0000-00-00', '0000-00-00', 2),
-(2, 2, 2, '2024-11-21', '2024-11-21', 2),
-(3, 4, 2, '2024-11-19', '2024-11-30', 1);
+INSERT INTO `orders` (`id`, `service`, `price`, `clientID`, `order_date`, `completion_date`, `status`) VALUES
+(1, 'service1', 3, 1, '2024-11-21', '2024-11-29', 2),
+(2, 'service0', 543, 1, '2024-11-22', '2025-02-14', 0),
+(3, 'service3', 2344, 1, '2024-11-20', '2024-11-22', 2);
 
 -- --------------------------------------------------------
 
@@ -99,18 +102,18 @@ CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` double NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `price`, `description`) VALUES
-(1, 'test service 1', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-(2, 'test service 2', 3542, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-(3, 'test service 3', 4, 'donut'),
-(4, 'Window Cleaning', 250, 'Clean Windows');
+INSERT INTO `services` (`id`, `name`, `price`, `description`, `status`) VALUES
+(1, 'test service 1', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1),
+(2, 'test service 2', 3542, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1),
+(3, 'test service 3', 3, 'donut', 0);
 
 --
 -- Indexes for dumped tables
@@ -133,8 +136,7 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `clientID` (`clientID`),
-  ADD KEY `serviceID` (`serviceID`);
+  ADD KEY `clientID` (`clientID`);
 
 --
 -- Indexes for table `services`
@@ -156,13 +158,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -172,17 +180,8 @@ ALTER TABLE `services`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `clients` (`id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`serviceID`) REFERENCES `services` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `clients` (`id`);
 COMMIT;
-
---
--- Ad new column to services, either activer or not active
---
-ALTER TABLE `services`
-  ADD COLUMN active TINYINT(1) NOT NULL DEFAULT 1;
-
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
