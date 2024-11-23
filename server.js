@@ -143,6 +143,7 @@ app.put('/clients/:id', (req, res) => {
       if (result.affectedRows === 0) {
           return res.status(404).send("Client not found.");
       }
+      req.session.user.name = name;
       res.sendStatus(200); // Update successful
   });
 });
