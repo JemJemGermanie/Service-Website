@@ -125,6 +125,43 @@ app.post('/client-login.html', (req, res) => {
   });
 });
 
+// client update info
+app.put('/clients/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, address, phone, password } = req.body;
+
+  if (!name || !address || !phone || !password) {
+      return res.status(400).send("All fields are required.");
+  }
+
+  const query = 'UPDATE clients SET name = ?, address = ?, phone = ?, password = ? WHERE id = ?';
+  database.query(query, [name, address, phone, password, id], (err, result) => {
+      if (err) {
+          console.error("Error updating client:", err);
+          return res.status(500).send("Server Error");
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send("Client not found.");
+      }
+      res.sendStatus(200); // Update successful
+  });
+});
+
+//delete client
+app.delete('/clients/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM clients WHERE id = ?';
+  database.query(query, [id], (err, result) => {
+      if (err) {
+          console.error("Error deleting client:", err);
+          return res.status(500).send("Server Error");
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send("Client not found.");
+      }
+      res.sendStatus(200); // Deletion successful
+  });
+});
 app.post('/admin-login.html', (req, res) => {
   const { name, password } = req.body;
 
@@ -168,10 +205,7 @@ app.get('/orders/:clientID/:status', (req, res) => {
 //Update order status
 app.post('/orders/:orderID/status', (req, res) => {
   const { orderID } = req.params;
-  const { status } = req.body;
-  if (!/^\d+$/.test(orderID)) {
-    return res.status(400).send("Invalid order ID"); 
-  }  
+  const status = req.body;
   database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
     if (err) {
       console.log("Error updating order status: ", err);
@@ -405,5 +439,26 @@ app.post('/api/business-info', (req, res) => {
       }
 
       res.json({ message: "Business info updated successfully" });
+  });
+});
+
+// Add a new order
+app.post('/api/orders', (req, res) => {
+  const { clientID, serviceID, order_date, completion_date, status } = req.body;
+
+  if (!clientID || !serviceID || !order_date || !completion_date || !status) {
+      return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  const query = `
+      INSERT INTO orders (clientID, serviceID, order_date, completion_date, status)
+      VALUES (?, ?, ?, ?, ?)
+  `;
+  database.query(query, [clientID, serviceID, order_date, completion_date, status], (err, result) => {
+      if (err) {
+          console.error('Error creating new order:', err);
+          return res.status(500).json({ error: 'Failed to create new order' });
+      }
+      res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
   });
 });
