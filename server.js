@@ -168,7 +168,10 @@ app.get('/orders/:clientID/:status', (req, res) => {
 //Update order status
 app.post('/orders/:orderID/status', (req, res) => {
   const { orderID } = req.params;
-  const status = req.body;
+  const { status } = req.body;
+  if (!/^\d+$/.test(orderID)) {
+    return res.status(400).send("Invalid order ID"); 
+  }  
   database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
     if (err) {
       console.log("Error updating order status: ", err);
