@@ -206,7 +206,7 @@ app.get('/orders/:clientID/:status', (req, res) => {
 //Update order status
 app.post('/orders/:orderID/status', (req, res) => {
   const { orderID } = req.params;
-  const status = req.body;
+  const { status } = req.body;
   database.query('UPDATE orders SET status = ? WHERE id = ?', [status, orderID], (err, results) => {
     if (err) {
       console.log("Error updating order status: ", err);
@@ -370,6 +370,14 @@ app.get('/session-details', (req, res) => {
     res.status(401).send("No active session");
   }
 });
+
+/*app.post('/session-details/:billID', (req, res) => {
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).send("No active session");
+  }
+});*/
 
 // Gets all orders for a specific user
 app.get('/orders/:clientID', (req, res) => {

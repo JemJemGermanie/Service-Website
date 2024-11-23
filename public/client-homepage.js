@@ -77,12 +77,14 @@ function viewBill(index) {
     if (client) {
         const service = UnpaidServices[index];
         const bill = {
+            id: service.id,
             client: client.name,
             service: service.service,
             price: service.price,
             order_date: service.order_date,
             completion_date: service.completion_date
         }
+        //fetch('/session-details/${bill.id}')
 //        window.location.href = 'client-bill.html';   IMPLEMENT COOKIES TO PASS DATA TO THE NEXT PAGE
     }
     else {
@@ -105,16 +107,12 @@ function payForService(index) {
             })
         })
         .then(response => {
-          alert (response);
           if (!response.ok) {
             throw new Error('Error paying for service');
           }
-          return response.json();
-        })
-        .then(() => {
           alert('Payment successful!');
           window.location.reload();
-          })
+        })
     }
 
     else {
@@ -123,40 +121,6 @@ function payForService(index) {
     }
 }
 
-// Function to remove an upcoming service
-function removeUpcomingService(index) {
-    const clientName = localStorage.getItem('clientName');
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const client = clients.find(c => c.name === clientName);
-
-    if (client) {
-        client.services_upcoming.splice(index, 1);
-        localStorage.setItem('clients', JSON.stringify(clients));
-        renderServices();
-    }
-}
-
-// Function to move a service from unpaid to completed services
-function moveCompletedService(index) {
-    const clientName = localStorage.getItem('clientName');
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const client = clients.find(c => c.name === clientName);
-
-    console.log('Before moving service:', JSON.stringify(client, null, 2));
-
-    if (client) {
-        const completedService = client.services.splice(index, 1)[0];
-        client.services_complete.push(completedService);
-
-        console.log('After moving service:', JSON.stringify(client, null, 2));
-        localStorage.setItem('clients', JSON.stringify(clients));
-
-        renderServices();
-    } else {
-        alert('Client not found. Please log in again.');
-        window.location.href = 'client-login.html';
-    }
-}
 
 // Function to view receipt details
 function viewReceipt(index) {
