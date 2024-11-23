@@ -386,7 +386,7 @@ app.get('/services/:id', (req,res) =>{
 // Endpoint to fetch session details
 app.get('/session-details', (req, res) => {
   if (req.session.user) {
-    res.json(req.session);
+    res.json(req.session.user);
   } else {
     res.status(401).send("No active session");
   }
@@ -474,17 +474,17 @@ app.post('/api/business-info', (req, res) => {
 
 // Add a new order
 app.post('/api/orders', (req, res) => {
-  const { clientID, service, price, order_date, completion_date, status } = req.body;
-  
-  if (!clientID || !service || !price || !order_date || !completion_date) {
+  const { clientID, serviceID, order_date, completion_date, status } = req.body;
+
+  if (!clientID || !serviceID || !order_date || !completion_date || !status) {
       return res.status(400).json({ error: 'All fields are required' });
   }
 
   const query = `
-      INSERT INTO orders (clientID, service, price, order_date, completion_date, status)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO orders (clientID, serviceID, order_date, completion_date, status)
+      VALUES (?, ?, ?, ?, ?)
   `;
-  database.query(query, [clientID, service, price, order_date, completion_date, status], (err, result) => {
+  database.query(query, [clientID, serviceID, order_date, completion_date, status], (err, result) => {
       if (err) {
           console.error('Error creating new order:', err);
           return res.status(500).json({ error: 'Failed to create new order' });

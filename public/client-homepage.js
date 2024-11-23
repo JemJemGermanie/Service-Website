@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return response.json();
     })
-    .then(response => {
-        client = response.user;
+    .then(user => {
+        client = user;
         clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
         fetch('/orders/' + client.id)
             .then(response => {
@@ -84,7 +84,7 @@ function viewBill(index) {
             order_date: service.order_date,
             completion_date: service.completion_date
         }
-        fetch('/session-details/${bill}', {
+        fetch('/session-details/${bill.id}', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
