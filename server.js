@@ -251,7 +251,7 @@ app.get('/services', (req,res) =>{
 });
 
 app.get('/api/services', (req, res) => {
-  const query = 'SELECT * FROM services WHERE active = 1';
+  const query = 'SELECT * FROM services WHERE status = 1';
   database.query(query, (err, results) => {
       if (err) {
           console.error("Error fetching active services:", err);
@@ -316,7 +316,7 @@ app.put('/api/services/:id', (req, res) => {
 
 // Fetch discontinued services
 app.get('/api/services/discontinued', (req, res) => {
-  const query = 'SELECT * FROM services WHERE active = 0';
+  const query = 'SELECT * FROM services WHERE status = 0';
   database.query(query, (err, results) => {
       if (err) {
           console.error("Error fetching discontinued services:", err);
@@ -330,7 +330,7 @@ app.get('/api/services/discontinued', (req, res) => {
 app.put('/api/services/:id/deactivate', (req, res) => {
   const { id } = req.params;
 
-  const query = 'UPDATE services SET active = 0 WHERE id = ?';
+  const query = 'UPDATE services SET status = 0 WHERE id = ?';
   database.query(query, [id], (err, result) => {
       if (err) {
           console.error("Error deactivating service:", err);
@@ -352,7 +352,7 @@ app.put('/api/services/:id/reactivate', (req, res) => {
       return res.status(400).send("Both name and price are required!");
   }
 
-  const query = 'UPDATE services SET name = ?, price = ?, active = 1 WHERE id = ?';
+  const query = 'UPDATE services SET name = ?, price = ?, status = 1 WHERE id = ?';
   database.query(query, [name, price, id], (err, result) => {
       if (err) {
           console.error("Error reactivating service:", err);
@@ -474,17 +474,17 @@ app.post('/api/business-info', (req, res) => {
 
 // Add a new order
 app.post('/api/orders', (req, res) => {
-  const { clientID, service, price, order_date, completion_date, status } = req.body;
+  const { clientID, serviceID, order_date, completion_date, status } = req.body;
 
-  if (!clientID || !service || !price || !order_date || !completion_date) {
+  if (!clientID || !serviceID || !order_date || !completion_date || !status) {
       return res.status(400).json({ error: 'All fields are required' });
   }
 
   const query = `
-      INSERT INTO orders (clientID, service, price, order_date, completion_date, status)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO orders (clientID, serviceID, order_date, completion_date, status)
+      VALUES (?, ?, ?, ?, ?)
   `;
-  database.query(query, [clientID, service, price, order_date, completion_date, status], (err, result) => {
+  database.query(query, [clientID, serviceID, order_date, completion_date, status], (err, result) => {
       if (err) {
           console.error('Error creating new order:', err);
           return res.status(500).json({ error: 'Failed to create new order' });
