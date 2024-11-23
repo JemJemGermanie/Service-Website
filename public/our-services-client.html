@@ -4,22 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Services</title>
-    <link rel="stylesheet" href="home.css"> <!-- Ensure the CSS file exists -->
-    <script type = "text/javaScript"
-    src = "business-profile.js"> </script>
+    <link rel="stylesheet" href="home.css">
+    <script defer>
+        let clientId; // Assumes the client session is already validated
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/session-details')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Client session not found');
+                    }
+                    return response.json();
+                })
+                .then(client => {
+                    clientId = client.id; // Get the client ID from session details
+                    renderServices();
+                })
+                .catch(error => {
+                    console.error('Error fetching client session:', error);
+                    alert('Please log in to request services.');
+                    window.location.href = 'client-login.html';
+                });
+        });
+
+        function renderServices() {
+            fetch('/api/services/active')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch active services');
+                    }
+                    return response.json();
+                })
+                .then(services => {
+                    const servicesList = document.getElementById('servicesList');
+                    servicesList.innerHTML = '';
+                    services.forEach(service => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <div class="service">
+                                <h3>${service.name}</h3>
+                                <p>${service.description}</p>
+                                <p>Price: $${service.price}</p>
+                                <button onclick="requestService(${service.id})">Request Service</button>
+                            </div>
+                        `;
+                        servicesList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching active services:', error));
+        }
+
+        function requestService(serviceId) {
+            const orderDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
+            const orderData = {
+                clientID: clientId,
+                serviceID: serviceId,
+                order_date: orderDate,
+                completion_date: '0000-00-00',
+                status: 1
+            };
+
+            fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to request service');
+                    }
+                    alert('Service requested successfully!');
+                })
+                .catch(error => {
+                    console.error('Error requesting service:', error);
+                    alert('There was an error requesting the service. Please try again.');
+                });
+        }
+    </script>
 </head>
-<body onload="renderServicesGuest()"> <!-- Calls the function to render active services on page load -->
+<body>
     <div class="top-bar">
-        <a href="home.html">Home</a>
-        <a href="our-services.html">Our Services</a>
+        <a href="client-homepage.html">Home</a>
+        <a href="our-services-client.html">Our Services</a>
     </div>
 
     <h1>Our Services</h1>
-    <p>We offer a wide variety of services. Please scroll down to see the services we provide.</p>
+    <p>We offer a variety of services. Please click "Request Service" to request any of them.</p>
 
-    <!-- Services section -->
-    <div class="services-section">
-        <ul id="servicesList"></ul> <!-- Services will render here -->
+    <div class="our-services">
+        <ul id="servicesList"></ul>
     </div>
 </body>
 </html>
