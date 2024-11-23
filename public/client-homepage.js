@@ -121,6 +121,31 @@ function payForService(index) {
     }
 }
 
+//Function to cancel upcoming service
+function removeUpcomingService(index) {
+  if (client) {
+      const service = UpcomingServices[index];
+      fetch('/orders/'+`${service.id}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error canceling service');
+        }
+        alert('Cancelation successful!');
+        window.location.reload();
+      })
+  }
+
+  else {
+      alert('Client not found. Please log in again.');
+      window.location.href = 'client-login.html';
+  }
+}
+
 
 // Function to view receipt details
 function viewReceipt(index) {

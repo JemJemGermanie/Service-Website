@@ -217,6 +217,26 @@ app.post('/orders/:orderID/status', (req, res) => {
   });
 });
 
+//Cancel upcoming order
+app.delete('/orders/:orderID', (req, res) => {
+  const { orderID } = req.params;
+  
+  database.query('DELETE FROM orders WHERE id = ?', [orderID], (err, results) => {
+    if (err) {
+      console.error("Error deleting order: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+
+    if (results.affectedRows === 0) {
+      res.status(404).send("Order not found");
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+
 //Get all services
 app.get('/services', (req,res) =>{
   database.query('SELECT * FROM services', (err,results) =>{
