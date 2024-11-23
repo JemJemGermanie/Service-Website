@@ -11,3 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'client-homepage.html';
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    fetch('/session-details')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('No active session');
+        }
+        return response.json();
+      })
+      .then(response => {
+          client = response.user;
+          bill = response.bill;
+            document.getElementById('clientName').textContent = bill.client;
+      })
+      .catch(error => {
+        console.error('Error fetching session details:', error);
+        alert('You need to log in first.');
+        window.location.href = '/client-login.html';
+      });
+  });

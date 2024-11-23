@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return response.json();
     })
-    .then(user => {
-        client = user;
+    .then(response => {
+        client = response.user;
         clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
         fetch('/orders/' + client.id)
             .then(response => {
@@ -84,8 +84,20 @@ function viewBill(index) {
             order_date: service.order_date,
             completion_date: service.completion_date
         }
-        //fetch('/session-details/${bill.id}')
-//        window.location.href = 'client-bill.html';   IMPLEMENT COOKIES TO PASS DATA TO THE NEXT PAGE
+        fetch('/session-details/${bill}', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(bill)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching bill details');
+                }
+                return response.json();
+                window.location.href = 'client-bill.html'
+              });
     }
     else {
         alert('Client not found. Please log in again.');
