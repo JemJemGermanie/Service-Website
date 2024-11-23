@@ -115,6 +115,7 @@ app.post('/client-login.html', (req, res) => {
       // Compare plain-text passwords
       if (user.password === password) {
         req.session.user = user; // Store user in the session
+        req.session.bill = null; // Clear any previous order ID
         res.redirect('/client-homepage.html'); // Redirect to the homepage
       } else {
         res.status(400).send("Incorrect password");
@@ -262,7 +263,7 @@ app.get('/api/services', (req, res) => {
 
 // Fetch active services for display
 app.get('/api/services/active', (req, res) => {
-  const query = 'SELECT * FROM services WHERE active = 1';
+  const query = 'SELECT * FROM services WHERE status = 1';
   database.query(query, (err, results) => {
       if (err) {
           console.error("Error fetching active services:", err);
@@ -385,19 +386,19 @@ app.get('/services/:id', (req,res) =>{
 // Endpoint to fetch session details
 app.get('/session-details', (req, res) => {
   if (req.session.user) {
-    res.json(req.session.user);
+    res.json(req.session);
   } else {
     res.status(401).send("No active session");
   }
 });
 
-/*app.post('/session-details/:billID', (req, res) => {
+app.post('/session-details/:bill', (req, res) => {
   if (req.session.user) {
-    res.json(req.session.user);
+    req.session.bill = req.params.bill;
   } else {
     res.status(401).send("No active session");
   }
-});*/
+});
 
 // Gets all orders for a specific user
 app.get('/orders/:clientID', (req, res) => {
