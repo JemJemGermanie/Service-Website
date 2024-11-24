@@ -29,7 +29,7 @@ function updateBusinessInfo(){
 };
 
 function renderServicesGuest() {
-    fetch('/api/services/active')
+    fetch('/api/services')
         .then(response => {
             if (!response.ok) {
                 throw new Error("Failed to fetch active services");
@@ -42,13 +42,15 @@ function renderServicesGuest() {
             services.forEach(service => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <span>${service.name}</span><br><span>$${service.price}</span><br>
-                    <p>${service.description}</p>
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                        <h3>${service.name} ($${service.price})</h3>
+                        <p style="font-size:18px;color:black">${service.description}</p>
+                    </div>
                 `;
                 servicesList.appendChild(li);
             });
         })
-        .catch(error => console.error("Error fetching active services:", error));
+        .catch(error => console.error("Error fetching services:", error));
 }
 
 // Function to render services
@@ -63,6 +65,7 @@ function renderServicesAdmin() {
                 li.className = 'service-item';
                 li.innerHTML = `
                     <span>${service.name} ($${service.price})</span>
+                    <p style="text-align:left;">${service.description}</p>
                     <div>
                         <button onclick="removeService(${service.id})">Remove</button>
                         <button onclick="updateService(${service.id}, '${service.name}', ${service.price})">Update</button>
