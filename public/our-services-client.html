@@ -6,7 +6,7 @@
     <title>Our Services</title>
     <link rel="stylesheet" href="home.css">
     <script defer>
-        let clientId; // Assumes the client session is already validated
+        let clientID; // Assumes the client session is already validated
         let orderDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
 
 
@@ -19,7 +19,7 @@
                     return response.json();
                 })
                 .then(client => {
-                    clientId = client.id; // Get the client ID from session details
+                    clientID = client.id; // Get the client ID from session details
                     renderServices();
                 })
                 .catch(error => {
@@ -62,7 +62,7 @@
 
         function requestService(serviceName,servicePrice, serviceDate) {
             const orderData = {
-                clientID: clientId,
+                clientID: clientID,
                 service: serviceName,
                 price: servicePrice,
                 order_date: orderDate,

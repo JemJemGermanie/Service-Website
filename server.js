@@ -491,18 +491,18 @@ app.post('/api/business-info', (req, res) => {
 
 // Add a new order
 app.post('/api/orders', (req, res) => {
-  const { clientID, serviceID, order_date, completion_date, status } = req.body;
+  const { clientID, service, price, order_date, completion_date, status } = req.body;
 
-  if (!clientID || !serviceID || !order_date || !completion_date || !status) {
-      return res.status(400).json({ error: 'All fields are required' });
+  if (!clientID || !service || !price || !order_date || !completion_date) {
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
   const query = `
-      INSERT INTO orders (clientID, serviceID, order_date, completion_date, status)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO orders (clientID, service, price, order_date, completion_date, status)
+      VALUES (?, ?, ?, ?, ?, ?)
   `;
-  database.query(query, [clientID, serviceID, order_date, completion_date, status], (err, result) => {
-      if (err) {
+  database.query(query, [clientID, service, price, order_date, completion_date, status], (err, result) => {
+    if (err) {
           console.error('Error creating new order:', err);
           return res.status(500).json({ error: 'Failed to create new order' });
       }
