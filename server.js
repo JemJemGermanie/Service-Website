@@ -509,3 +509,27 @@ app.post('/api/orders', (req, res) => {
       res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
   });
 });
+
+app.get('/api/orders/status/2', (req, res) => {
+  const query = `
+      SELECT 
+          orders.id AS order_id,
+          clients.name AS client_name,
+          orders.service AS service_name,
+          orders.price,
+          orders.order_date,
+          orders.completion_date
+      FROM orders
+      JOIN clients ON orders.clientID = clients.id
+
+      WHERE orders.status = 2;
+  `;
+
+  database.query(query, (err, results) => {
+      if (err) {
+          console.error("Error fetching orders with status 2:", err);
+          return res.status(500).send("Server Error: Status 500");
+      }
+      res.json(results); // Return the fetched data
+  });
+});
