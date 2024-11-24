@@ -19,10 +19,10 @@ h1 {
     margin-bottom: 20px;
 }
 
-.client-details, .service-details {
+.company-details, .client-details, .service-details {
     margin-bottom: 20px;
 }
 
-.client-details p, .service-details p {
+.company-details p, .client-details p, .service-details p {
     margin: 5px 0;
 }

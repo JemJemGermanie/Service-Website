@@ -58,7 +58,7 @@ function renderServices() {
         ${order.service} - $${order.price.toFixed(2)}
         <div class="action-buttons">
           <button class="action-button pay-button" onclick="payForService(${index})">Pay Now</button>
-            <button class="action-button view-bill-button" onclick="viewBill(${index})">View Bill</button>
+            <button class="action-button view-bill-button" onclick="viewBill(${index})">View Invoice</button>
           </div>
       </li>
     `).join('');
@@ -67,7 +67,10 @@ function renderServices() {
     CompletedServicesList.innerHTML = CompletedServices.map((order, index) => `
       <li class="service-item">
         ${order.service} - $${order.price.toFixed(2)}
-      </li>
+        <div class="action-buttons">
+            <button class="action-button view-receipt-button" onclick="viewReceipt(${index})">View Receipt</button>
+          </div>
+        </li>
     `).join('');
   }
 }
@@ -77,32 +80,67 @@ function viewBill(index) {
     if (client) {
         const service = UnpaidServices[index];
         const bill = {
-            id: service.id,
-            client: client.name,
-            service: service.service,
-            price: service.price,
-            order_date: service.order_date,
-            completion_date: service.completion_date
-        }
-        fetch('/session-details/${bill.id}', {
-              method: 'POST',
+          id: service.id,
+          client: client.name,
+          service: service.service,
+          price: service.price,
+          order_date: service.order_date,
+          completion_date: service.completion_date
+      }
+
+        fetch('/session-details-bill', {
+              method: 'PUT',
               headers: {
-                  'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
               },
               body: JSON.stringify(bill)
-            })
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error fetching bill details');
                 }
                 return response.json();
-                window.location.href = 'client-bill.html'
               });
+                window.open('client-bill.html', '_blank');
+              
     }
     else {
         alert('Client not found. Please log in again.');
         window.location.href = 'client-login.html';
     }
+}
+
+function viewReceipt(index) {
+  if (client) {
+      const service = CompletedServices[index];
+      const bill = {
+        id: service.id,
+        client: client.name,
+        service: service.service,
+        price: service.price,
+        order_date: service.order_date,
+        completion_date: service.completion_date
+    }
+
+      fetch('/session-details-bill', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bill)
+      })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Error fetching bill details');
+              }
+              return response.json();
+            });
+              window.open('client-receipt.html', '_blank');
+  }
+  else {
+      alert('Client not found. Please log in again.');
+      window.location.href = 'client-login.html';
+  }
 }
 
 
@@ -156,16 +194,4 @@ function removeUpcomingService(index) {
       alert('Client not found. Please log in again.');
       window.location.href = 'client-login.html';
   }
-}
-
-
-// Function to view receipt details
-function viewReceipt(index) {
-    const clientName = localStorage.getItem('clientName');
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const client = clients.find(c => c.name === clientName);
-    const service = client.services_complete[index];
-
-    localStorage.setItem('selectedService', JSON.stringify(service));
-    window.location.href = 'clients-receipt.html';
 }

@@ -1,19 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const selectedServiceData = JSON.parse(localStorage.getItem('selectedService'));
+var client;
+var bill;
 
-    if (selectedServiceData && selectedServiceData.clientName && selectedServiceData.service) {
-        document.getElementById('clientName').textContent = selectedServiceData.clientName;
-        document.getElementById('invoiceDate').textContent = new Date().toLocaleDateString();
-        document.getElementById('serviceName').textContent = selectedServiceData.service.name;
-        document.getElementById('serviceAmount').textContent = `$${selectedServiceData.service.price.toFixed(2)}`;
-    } else {
-        alert('Service details not found. Redirecting back to homepage.');
-        window.location.href = 'client-homepage.html';
-    }
-});
+var companyName = document.getElementById('companyName');
+var companyAddress = document.getElementById('companyAddress');
+var companyPhone = document.getElementById('companyPhone');
+
+var clientName = document.getElementById('clientName');
+var clientAddress = document.getElementById('clientAddress');
+var clientPhone = document.getElementById('clientPhone');
+
+var orderID = document.getElementById('orderID');
+var serviceName = document.getElementById('serviceName');
+var price = document.getElementById('price');
+var order_date = document.getElementById('order_date');
+var completion_date = document.getElementById('completion_date');
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    fetch('/api/business-info')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('No active session');
+      }
+      return response.json();
+    })
+    .then(data => {
+        companyName.innerHTML = data.name;
+        companyAddress.innerHTML = data.address;
+        companyPhone.innerHTML = data.phone;
+    });
+
     fetch('/session-details')
       .then(response => {
         if (!response.ok) {
@@ -22,13 +38,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
       })
       .then(response => {
-          client = response.user;
-          bill = response.bill;
-            document.getElementById('clientName').textContent = bill.client;
+          client = response;
+          clientName.innerHTML = client.name;
+          clientAddress.innerHTML = client.address;
+          clientPhone.innerHTML = client.phone;
       })
       .catch(error => {
         console.error('Error fetching session details:', error);
         alert('You need to log in first.');
         window.location.href = '/client-login.html';
       });
+
+      fetch('/session-details-bill')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('No active session');
+        }
+        return response.json();
+      })
+      .then(response => {
+        const bill = response;
+        orderID.innerHTML = bill.id;
+        clientName.innerHTML = bill.client;
+        serviceName.innerHTML = bill.service;
+        price.innerHTML = bill.price;
+        order_date.innerHTML = bill.order_date;
+        completion_date.innerHTML = bill.completion_date;
+      })
+      .catch(error => {
+        console.error('Error fetching session details:', error);
+        alert('Please log in again.');
+        window.location.href = '/client-login.html';
+      });
+
+
   });

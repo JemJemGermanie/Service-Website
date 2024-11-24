@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.use(session({
   secret: 'a-secret-key-to-encrypt-session-data',
   resave: false, // Do not save session if unmodified
-  saveUninitialized: false, // Do not create session until something stored
+  saveUninitialized: true, // Do not create session until something stored
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
@@ -115,7 +115,7 @@ app.post('/client-login.html', (req, res) => {
       // Compare plain-text passwords
       if (user.password === password) {
         req.session.user = user; // Store user in the session
-        req.session.bill = null; // Clear any previous order ID
+        req.session.bill = null; // Clear any previous bill
         res.redirect('/client-homepage.html'); // Redirect to the homepage
       } else {
         res.status(400).send("Incorrect password");
@@ -392,9 +392,26 @@ app.get('/session-details', (req, res) => {
   }
 });
 
-app.post('/session-details/:bill', (req, res) => {
+app.get('/session-details-bill', (req, res) => {
   if (req.session.user) {
-    req.session.bill = req.params.bill;
+    res.json(req.session.bill);
+  } else {
+    res.status(401).send("No active session");
+  }
+});
+
+app.put('/session-details-bill', (req, res) => {
+  const bill = {
+    id: req.body.id,
+    client: req.body.client,
+    service: req.body.service,
+    price: req.body.price,
+    order_date: req.body.order_date,
+    completion_date: req.body.completion_date
+  };
+  if (req.session.user) {
+    req.session.bill=bill;
+    res.sendStatus(200);
   } else {
     res.status(401).send("No active session");
   }
