@@ -209,7 +209,7 @@ app.get('/orders/:clientID/:status', (req, res) => {
   const query = `
     SELECT orders.id, orders.clientID, orders.order_date, orders.completion_date, orders.status, services.name, services.price
     FROM orders
-    JOIN services ON orders.serviceID = services.id
+    JOIN services ON orders.service = services.name
     WHERE orders.clientID = ? AND orders.status = ?
   `;
   database.query(query, [clientID, status], (err, results) => {
