@@ -82,7 +82,7 @@ function viewBill(index) {
         const service = UnpaidServices[index];
         const bill = {
           id: service.id,
-          client: client.name,
+          client: client,
           service: service.service,
           price: service.price,
           order_date: service.order_date,
@@ -116,7 +116,7 @@ function viewReceipt(index) {
       const service = CompletedServices[index];
       const bill = {
         id: service.id,
-        client: client.name,
+        client: client,
         service: service.service,
         price: service.price,
         order_date: service.order_date,

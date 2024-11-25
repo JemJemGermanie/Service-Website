@@ -128,7 +128,7 @@ function viewInvoice(index) {
     .then(client => {
       const bill = {
         id: service.id,
-        client: client.name,
+        client: client,
         service: service.service,
         price: service.price,
         order_date: service.order_date,

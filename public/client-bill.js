@@ -30,25 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         companyPhone.innerHTML = data.phone;
     });
 
-    fetch('/session-details')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('No active session');
-        }
-        return response.json();
-      })
-      .then(response => {
-          client = response;
-          clientName.innerHTML = client.name;
-          clientAddress.innerHTML = client.address;
-          clientPhone.innerHTML = client.phone;
-      })
-      .catch(error => {
-        console.error('Error fetching session details:', error);
-        alert('You need to log in first.');
-        window.location.href = '/client-login.html';
-      });
-
       fetch('/session-details-bill')
       .then(response => {
         if (!response.ok) {
@@ -59,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => {
         const bill = response;
         orderID.innerHTML = bill.id;
-        clientName.innerHTML = bill.client;
+        clientName.innerHTML = bill.client.name;
+        clientAddress.innerHTML = bill.client.address;
+        clientPhone.innerHTML = bill.client.phone;        
         serviceName.innerHTML = bill.service;
         price.innerHTML = bill.price;
         order_date.innerHTML = bill.order_date;
