@@ -31,7 +31,12 @@
 
             <button type="submit">Update Business Info</button>
         </form>
-
+        <!-- Form to upload business image -->
+        <form id="businessImageForm" enctype="multipart/form-data">
+            <label for="businessImage">Upload Business Image</label>
+            <input type="file" id="businessImage" name="businessImage" accept="image/jpeg, image/png" required>
+            <button type="submit">Upload Image</button>
+        </form>
         <!-- Services section -->
         <div class="services-section">
             <h2>Offered Services</h2>

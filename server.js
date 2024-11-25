@@ -5,6 +5,7 @@ const database = require('./database');
 const session = require('express-session'); // Import express-session
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
@@ -18,13 +19,30 @@ app.use(session({
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public');
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'business.jpeg');
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Endpoint to handle image upload
+app.post('/upload-business-image', upload.single('businessImage'), (req, res) => {
+  res.send('Business image uploaded successfully!');
+});
+
 // Gets admin by name
 app.get('/admins/:name', (req, res) => {
   const { name } = req.params;
   database.query('SELECT * FROM admins WHERE name = ?', [name], (err, results) => {
     if (err) {
       console.log("Error fetching admin: ", err);
-      res.status(500).send("Server Error: Status 500");
+      res.status(500).send("Servesr Error: Status 500");
       return;
     }
     if (results.length === 0) {
