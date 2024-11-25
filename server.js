@@ -417,6 +417,18 @@ app.put('/session-details-bill', (req, res) => {
   }
 });
 
+// Gets all orders
+app.get('/orders', (req, res) => {
+  database.query('SELECT * FROM orders ', (err, results) => {
+    if (err) {
+      console.log("Error fetching orders: ", err);
+      res.status(500).send("Server Error: Status 500");
+      return;
+    }
+    res.json(results);
+  });
+});
+
 // Gets all orders for a specific user
 app.get('/orders/:clientID', (req, res) => {
   const { clientID } = req.params;

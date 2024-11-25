@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(user => {
         client = user;
         clientInfo.innerHTML += `Welcome, ${client.name}`; // Update the DOM with the client's name
-        fetch('/orders/' + client.id)
+        fetch('/orders/' + `${client.id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error fetching orders');
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(orders => {
+              console.log('Orders:', JSON.stringify(orders, null, 2));
                 UpcomingServices = orders.filter(order => order.status === 0);
                 UnpaidServices = orders.filter(order => order.status === 1);
                 CompletedServices = orders.filter(order => order.status === 2);

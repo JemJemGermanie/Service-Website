@@ -1,88 +1,167 @@
-async function fetchOrders(clientID, status) {
-    const response = await fetch(`/orders/${clientID}/${status}`);
-    if (!response.ok) {
-        throw new Error('Error fetching orders');
-    }
-    return response.json();
+var PendingServices;
+var UnpaidServices;
+
+// Function to render services
+function renderServices() {
+  const PendingServicesList = document.getElementById("PendingServicesList");
+  const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+  if (PendingServicesList) {
+  PendingServicesList.innerHTML = PendingServices.map((order, index) => `
+    <li>
+      <div id='text-container'>
+        Service Name: ${order.service} <br>
+        Order ID: ${order.id} <br> 
+        Client ID: ${order.clientID} <br>
+      </div>
+      <div id='button-container'>
+        <button onclick="viewDetailsPending(${index})">View Details</button>
+        <button onclick="confirmOrder(${order.id})">Confirm Order</button>
+      </div>
+      <div id='details-container'>
+      </div>
+    </li>
+  `).join('');
+  }
+  if (UnpaidServicesList) {
+  UnpaidServicesList.innerHTML = UnpaidServices.map((order, index) => `
+    <li >
+      <div id='text-container'>
+        Service Name: ${order.service} <br>
+        Order ID: ${order.id} <br> 
+        Client ID: ${order.clientID} <br>
+      </div>
+      <div id='button-container'>
+        <button onclick="viewDetailsUnpaid(${index})" style="background-color: green;">View Details</button>
+        <button onclick="viewInvoice(${index})">View Invoice</button>
+        <button onclick="notifyClient(${order.clientID})">Notify Client</button>
+      </div>
+      <div id='details-container'>
+      </div>
+    </li>
+  `).join(''); 
+  }
 }
 
-async function renderServices() {
-    const PendingServicesList = document.getElementById("PendingServicesList");
-    const UnpaidServicesList = document.getElementById("UnpaidServicesList");
-
-    PendingServicesList.innerHTML = '';
-    UnpaidServicesList.innerHTML = '';
-
-    const clients = await fetch('/clients').then(response => response.json());
-    console.log('Fetched clients:', clients);
-
-    for (const client of clients) {
-        try {
-            const upcomingServices = await fetchOrders(client.id, 1);
-            const unpaidServices = await fetchOrders(client.id, 2);
-
-            console.log(`Client: ${client.name}, Upcoming Services:`, upcomingServices);
-            console.log(`Client: ${client.name}, Unpaid Services:`, unpaidServices);
-
-            if (upcomingServices.length > 0) {
-                PendingServicesList.innerHTML += `<h2>${client.name}</h2><ul>`;
-                upcomingServices.forEach((service) => {
-                    const formattedDate = new Date(service.order_date).toLocaleDateString();
-                    console.log(`Upcoming Service: ${service.name}, Status: ${service.status}`);
-                    PendingServicesList.innerHTML += `
-                        <li>
-                            ${service.name} - $${service.price} - Order Date: ${formattedDate}
-                            <button onclick="moveCompletedService(${service.id})">Completed Service</button>
-                        </li>
-                    `;
-                });
-                PendingServicesList.innerHTML += `</ul>`;
-            }
-
-            if (unpaidServices.length > 0) {
-                UnpaidServicesList.innerHTML += `<h2>${client.name}</h2><ul>`;
-                unpaidServices.forEach((service) => {
-                    const formattedDate = new Date(service.completion_date).toLocaleDateString();
-                    console.log(`Unpaid Service: ${service.name}, Status: ${service.status}`);
-                    UnpaidServicesList.innerHTML += `
-                        <li>
-                            ${service.name} - $${service.price} - Completion Date: ${formattedDate}
-                            <button onclick="notifyCustomer('${client.name}', '${service.name}')">Notify Customer</button>
-                        </li>
-                    `;
-                });
-                UnpaidServicesList.innerHTML += `</ul>`;
-            }
-        } catch (error) {
-            console.error('Error rendering services:', error);
-        }
-    }
+function viewDetailsPending(index) {
+  order=PendingServices[index];
+  const PendingServicesList = document.getElementById("PendingServicesList");
+  const listItem = PendingServicesList.children[index];
+  const detailsContainer = listItem.querySelector('#details-container');
+  detailsContainer.innerHTML = `
+      <div>
+        Order ID: ${order.id} <br>
+        Client ID: ${order.clientID} <br>
+        Service: ${order.service} <br>
+        Price: ${order.price} <br>
+        Order Date: ${order.order_date} <br>
+        Completion Date: ${order.completion_date} <br>
+        <button onclick="clearDetailsPending(${index})" style="background-color: red;">Close</button>
+      </div>
+    `;
 }
 
-function moveCompletedService(orderID) {
-    fetch(`/orders/${orderID}/status`, {
+function viewDetailsUnpaid(index) {
+  order=UnpaidServices[index];
+  const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+  const listItem = UnpaidServicesList.children[index];
+  const detailsContainer = listItem.querySelector('#details-container');
+  detailsContainer.innerHTML = `
+      <div>
+        Order ID: ${order.id} <br>
+        Client ID: ${order.clientID} <br>
+        Service: ${order.service} <br>
+        Price: ${order.price} <br>
+        Order Date: ${order.order_date} <br>
+        Completion Date: ${order.completion_date} <br>
+        <button onclick="clearDetailsUnpaid(${index})" style="background-color: red;">Close</button>
+      </div>
+    `;
+}
+
+function clearDetailsPending(index) {
+  const PendingServicesList = document.getElementById("PendingServicesList");
+  const listItem = PendingServicesList.children[index];
+  const detailsContainer = listItem.querySelector('#details-container');
+  detailsContainer.innerHTML = '';
+}
+
+function clearDetailsUnpaid(index) {
+  const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+  const listItem = UnpaidServicesList.children[index];
+  const detailsContainer = listItem.querySelector('#details-container');
+  detailsContainer.innerHTML = '';
+}
+
+function confirmOrder(orderID) {
+    fetch('/orders/'+`${orderID}`+'/status', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            status: 1,
+        })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error paying for service');
+      }
+      alert('Order confirmed! Your client will be notified.');
+      window.location.reload();
+    })
+}
+
+function viewInvoice(index) {
+    const service = UnpaidServices[index];
+    fetch('/clients/'+`${service.clientID}`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error fetching client details');
+      }
+      return response.json();
+    })
+    .then(client => {
+      const bill = {
+        id: service.id,
+        client: client.name,
+        service: service.service,
+        price: service.price,
+        order_date: service.order_date,
+        completion_date: service.completion_date
+      }
+      fetch('/session-details-bill', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: 2 })
-    })
-    .then(response => {
+        body: JSON.stringify(bill)
+        })
+      .then(response => {
         if (!response.ok) {
-            throw new Error('Error updating order status');
+          throw new Error('Error fetching bill details');
         }
-        renderServices();
-    })
-    .catch(error => {
-        console.error('Error updating order status:', error);
+        return response.json();
+      });
     });
-}
-
-function notifyCustomer(clientName, serviceName) {
-    alert(`Customer ${clientName} has been notified about unpaid service: ${serviceName}`);
+  window.open('client-bill.html', '_blank');         
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded event fired');
+  fetch('/orders')
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error fetching orders');
+      }
+      return response.json();
+  })
+  .then(orders => {
+    PendingServices = orders.filter(order => order.status === 0);
+    UnpaidServices = orders.filter(order => order.status === 1);
     renderServices();
+  })
 });

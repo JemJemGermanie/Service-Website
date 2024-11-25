@@ -1,31 +1,65 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            Pending Services
-        </title>
-        <link rel="stylesheet" href="business-pending-services.css">
-        <script type = "text/javaScript"
-        src = "business-pending-service.js"> </script>
-    </head>
-
-    <body>
-        <div class="top-bar">
-            <a href="admin-homepage.html">Home</a>
-            <a href="our-services-admin.html">Our Services</a>
-            <a style="float:right" href="sign-out.html">Sign out</a>
-        </div>
-        <div class="page">
-            <div class="service-section">
-                <div class = "pending-services-section">
-                    <h1>Pending Services</h1>
-                    <ul id="PendingServicesList"></ul>            
-                </div>
-                <div class = "unpaid-services-section">
-                    <h1>Unpaid Services</h1>
-                    <ul id="UnpaidServicesList"></ul>
-                </div>
-            </div>
-        </div>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Services</title>
+    <link rel="stylesheet" href="home.css">
+    <script type="text/javascript" src="business-pending-service.js" defer></script>
+    <style>
+        .service-section li {
+            margin: 10px 0;
+            background-color: #f4f4f4;
+            padding: 10px;
+            display: flex;
+            flex-direction: column; /* Ensure elements are stacked vertically */
+            align-items: flex-start;
+        }
+        .pending-services-section .text-container {
+            text-align: left;
+        }
+        .pending-services-section .button-container {
+            text-align: right;
+            margin-top: 10px; /* Add some space between text and buttons */
+        }
+        .pending-services-section .details-container {
+            margin-top: 10px; /* Add some space between buttons and details */
+            text-align: left;
+        }
+        .pending-services-section button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .unpaid-services-section .text-container {
+            text-align: left;
+        }
+        .unpaid-services-section .button-container {
+            text-align: right;
+        }
+        .unpaid-services-section button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="admin-homepage.html">Home</a>
+        <a href="our-services-admin.html">Our Services</a>
+        <a style="float:right" href="sign-out.html">Sign out</a>
+    </div>
+    <div class="pending-services-section">
+        <h2>Pending Services</h2>
+        <ul id="PendingServicesList" class="service-section"></ul>
+    </div>
+    <div class="unpaid-services-section">
+        <h2>Unpaid Services</h2>
+        <ul id="UnpaidServicesList" class="service-section"></ul>
+    </div>
+</body>
 </html>
