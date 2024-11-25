@@ -44,38 +44,56 @@ function renderServices() {
 
 function viewDetailsPending(index) {
   order=PendingServices[index];
-  const PendingServicesList = document.getElementById("PendingServicesList");
-  const listItem = PendingServicesList.children[index];
-  const detailsContainer = listItem.querySelector('#details-container');
-  detailsContainer.innerHTML = `
+  fetch(`/clients/` + `${order.clientID}`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error fetching client');
+    }
+    return response.json();
+  })
+  .then(clients => {
+    const clientName = clients.name
+    const PendingServicesList = document.getElementById("PendingServicesList");
+    const listItem = PendingServicesList.children[index];
+    const detailsContainer = listItem.querySelector('#details-container');
+    detailsContainer.innerHTML = `
       <div>
-        Order ID: ${order.id} <br>
-        Client ID: ${order.clientID} <br>
+        Client Name: ${clientName} <br>
         Service: ${order.service} <br>
-        Price: ${order.price} <br>
-        Order Date: ${order.order_date} <br>
-        Completion Date: ${order.completion_date} <br>
+        Price: $${order.price} <br>
+        Order Date: ${new Date(order.order_date).toISOString().split('T')[0]} <br>
+        Completion Date: ${new Date(order.completion_date).toISOString().split('T')[0]} <br>
         <button onclick="clearDetailsPending(${index})" style="background-color: red;">Close</button>
       </div>
     `;
+  })
 }
 
 function viewDetailsUnpaid(index) {
   order=UnpaidServices[index];
-  const UnpaidServicesList = document.getElementById("UnpaidServicesList");
-  const listItem = UnpaidServicesList.children[index];
-  const detailsContainer = listItem.querySelector('#details-container');
-  detailsContainer.innerHTML = `
+  fetch(`/clients/` + `${order.clientID}`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error fetching client');
+    }
+    return response.json();
+  })
+  .then(clients => {
+    const clientName = clients.name
+    const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+    const listItem = UnpaidServicesList.children[index];
+    const detailsContainer = listItem.querySelector('#details-container');
+    detailsContainer.innerHTML = `
       <div>
-        Order ID: ${order.id} <br>
-        Client ID: ${order.clientID} <br>
+        Client Name: ${clientName} <br>
         Service: ${order.service} <br>
-        Price: ${order.price} <br>
-        Order Date: ${order.order_date} <br>
-        Completion Date: ${order.completion_date} <br>
-        <button onclick="clearDetailsUnpaid(${index})" style="background-color: red;">Close</button>
+        Price: $${order.price} <br>
+        Order Date: ${new Date(order.order_date).toISOString().split('T')[0]} <br>
+        Completion Date: ${new Date(order.completion_date).toISOString().split('T')[0]} <br>
+        <button onclick="clearDetailsPending(${index})" style="background-color: red;">Close</button>
       </div>
     `;
+  })
 }
 
 function clearDetailsPending(index) {
