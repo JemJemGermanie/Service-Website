@@ -15,6 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
                 updateBusinessInfo();
             });
+            const businessImageForm = document.getElementById('businessImageForm');
+            businessImageForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent the default form submission
+            
+                const formData = new FormData(businessImageForm);
+            
+                fetch('/upload-business-image', {
+                  method: 'POST',
+                  body: formData
+                })
+                .then(response => response.text())
+                .then(message => {
+                  alert(message); // Display the server response
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred while uploading the image.');
+                });
+              });
     
 });
 
