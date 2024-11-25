@@ -15,8 +15,19 @@
         <a style="float:right" href="sign-out.html">Sign out</a>
     </div>
 
+
     <div class="page">
         <ul id="clientInfo"></ul>
+        <div class="search-bar">
+            <label for="searchInput">Search Services:</label>
+            <input type="text" id="searchInput" placeholder="Search by name or date..." oninput="filterServices()" />
+        
+            <label for="filterCriteria">Filter by:</label>
+            <select id="filterCriteria" onchange="filterServices()">
+                <option value="name">Name</option>
+                <option value="date">Date</option>
+            </select>
+        </div>
         <div class="services-section">
             <div class="upcoming-services-section">
                 <h1>Upcoming Services</h1>

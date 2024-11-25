@@ -33,15 +33,6 @@ async function renderClients() {
             const clientName = document.createElement('h2');
             clientName.textContent = client.name;
 
-            const viewServicesBtn = document.createElement('button');
-            viewServicesBtn.textContent = 'View Upcoming Services';
-            viewServicesBtn.classList.add('view-services-btn');
-            viewServicesBtn.dataset.clientIndex = client.id; // Store client ID
-
-            // Event listener for the button
-            viewServicesBtn.addEventListener('click', (event) => {
-                toggleServices(event, client.id);
-            });
 
             const viewClientBtn = document.createElement('button');
             viewClientBtn.textContent = 'View Client';
@@ -53,7 +44,6 @@ async function renderClients() {
             });
 
             clientHeader.appendChild(clientName);
-            clientHeader.appendChild(viewServicesBtn);
             clientHeader.appendChild(viewClientBtn);
             clientDiv.appendChild(clientHeader);
 
@@ -78,7 +68,7 @@ async function toggleServices(event, clientID) {
 
     if (servicesList.style.display === 'none') {
         try {
-            const upcomingServices = await fetchOrders(clientID, 1);
+            const upcomingServices = await fetchOrders(clientID, 0);
             servicesList.innerHTML = upcomingServices.map(service => `
                 <li>${service.name} - $${service.price.toFixed(2)}</li>
             `).join('');

@@ -48,7 +48,7 @@ function renderServices() {
     // Render Upcoming Services
     UpcomingServicesList.innerHTML = UpcomingServices.map((order, index) => `
       <li class="service-item">
-        ${order.service} - $${order.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
         <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
       </li>
     `).join('');
@@ -56,7 +56,7 @@ function renderServices() {
     // Render Unpaid Services
     UnpaidServicesList.innerHTML = UnpaidServices.map((order, index) => `
       <li class="service-item">
-        ${order.service} - $${order.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
         <div class="action-buttons">
           <button class="action-button pay-button" onclick="payForService(${index})">Pay Now</button>
             <button class="action-button view-bill-button" onclick="viewBill(${index})">View Invoice</button>
@@ -67,7 +67,7 @@ function renderServices() {
     // Render Completed Services
     CompletedServicesList.innerHTML = CompletedServices.map((order, index) => `
       <li class="service-item">
-        ${order.service} - $${order.price.toFixed(2)}
+        ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
         <div class="action-buttons">
             <button class="action-button view-receipt-button" onclick="viewReceipt(${index})">View Receipt</button>
           </div>
@@ -75,6 +75,67 @@ function renderServices() {
     `).join('');
   }
 }
+
+function filterServices() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const criteria = document.getElementById('filterCriteria').value;
+
+  // Filter each category based on the query and criteria
+  const filteredUpcoming = UpcomingServices.filter(service =>
+      criteria === 'name'
+          ? service.service.toLowerCase().includes(query)
+          : service.completion_date.includes(query)
+  );
+  const filteredUnpaid = UnpaidServices.filter(service =>
+      criteria === 'name'
+          ? service.service.toLowerCase().includes(query)
+          : service.completion_date.includes(query)
+  );
+  const filteredCompleted = CompletedServices.filter(service =>
+      criteria === 'name'
+          ? service.service.toLowerCase().includes(query)
+          : service.completion_date.includes(query)
+  );
+
+  // Render the filtered lists
+  renderFilteredServices(filteredUpcoming, filteredUnpaid, filteredCompleted);
+}
+
+function renderFilteredServices(filteredUpcoming, filteredUnpaid, filteredCompleted) {
+  const UpcomingServicesList = document.getElementById("UpcomingServicesList");
+  const UnpaidServicesList = document.getElementById("UnpaidServicesList");
+  const CompletedServicesList = document.getElementById("CompletedServicesList");
+
+  // Render Upcoming Services
+  UpcomingServicesList.innerHTML = filteredUpcoming.map((order, index) => `
+    <li class="service-item">
+      ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
+      <button class="action-button cancel-button" onclick="removeUpcomingService(${index})">Cancel Service</button>
+    </li>
+  `).join('');
+
+  // Render Unpaid Services
+  UnpaidServicesList.innerHTML = filteredUnpaid.map((order, index) => `
+    <li class="service-item">
+      ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
+      <div class="action-buttons">
+        <button class="action-button pay-button" onclick="payForService(${index})">Pay Now</button>
+        <button class="action-button view-bill-button" onclick="viewBill(${index})">View Invoice</button>
+      </div>
+    </li>
+  `).join('');
+
+  // Render Completed Services
+  CompletedServicesList.innerHTML = filteredCompleted.map((order, index) => `
+    <li class="service-item">
+      ${order.service} - $${order.price.toFixed(2)} - ${new Date(order.completion_date).toISOString().split('T')[0]}
+      <div class="action-buttons">
+        <button class="action-button view-receipt-button" onclick="viewReceipt(${index})">View Receipt</button>
+      </div>
+    </li>
+  `).join('');
+}
+
 
 // Function to view bill details
 function viewBill(index) {
