@@ -65,6 +65,7 @@ app.get('/clients', (req, res) => {
   });
 });
 
+//Get client by id
 app.get('/clients/:id', (req, res) => {
   const {id} = req.params;
   database.query('SELECT * FROM clients WHERE id = ?', [id], (err, results) => {
@@ -456,10 +457,10 @@ app.get('/orders/:clientID', (req, res) => {
       res.status(500).send("Server Error: Status 500");
       return;
     }
-    if (results.length === 0) {
+    /*if (results.length === 0) {
       res.status(404).send("No orders found for this user");
       return;
-    }
+    }*/
     res.json(results);
   });
 });
