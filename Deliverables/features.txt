@@ -1,4 +1,4 @@
-Completed Features
+Completed Features Deliverable 1
 
 Website Skeletons
 Homepage
@@ -13,21 +13,11 @@ Admin view clients
 Admin view pending, unpaid, completed services
 Client & Business update account details
 
+Added Features Deliverable 2
 
-TO-DO Features
-
-Set up NodeJS server
-Database code integration (Express)
-Setup API endpoints
-User authentication & authorization
-Client-side integration (replace localStorage operations with API calls)
-API request error handling
-Website testing
-JS script to create an html page for new clients
-
-User Installation Guide:
-Since this deliverable is focused on the frontend, a guide to deploy the website doesnt really apply,
-due to the lack of backend implementation. To open and access the website, user should open the home.html
-file. However, as most of the data is hard-coded, and initialized on the home page, if one would like to
-tweak this base data relating to business info, offered services, and client info, they can access the
-data-init.js file and modify the values there.
+mysql database 
+Search for services (Client Side)
+Requesting Services (Client Side)
+Viewing Receipts (Client Side) & Invoice (Business Side)
+Uploading Business Image
+Adding, Updating, Removing, Reactivating Business Services
