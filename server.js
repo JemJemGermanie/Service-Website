@@ -6,6 +6,7 @@ const session = require('express-session'); // Import express-session
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
@@ -434,6 +435,34 @@ app.put('/session-details-bill', (req, res) => {
   } else {
     res.status(401).send("No active session");
   }
+});
+
+//Send invoice notification
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'unpaid.invoice1@gmail.com',
+    pass: 'nxjk xiki glms aeeh'
+  }
+});
+
+app.post('/send-email', (req, res) => {
+  const { to, subject, text } = req.body;
+
+  const mailOptions = {
+    from: 'unpaid.invoice1@gmail.com',
+    to,
+    subject,
+    text
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).send('Error sending email');
+    }
+    res.status(200).send('Email sent successfully');
+  });
 });
 
 // Gets all orders

@@ -33,7 +33,7 @@ function renderServices() {
       <div id='button-container'>
         <button onclick="viewDetailsUnpaid(${index})" style="background-color: green;">View Details</button>
         <button onclick="viewInvoice(${index})">View Invoice</button>
-        <button onclick="notifyClient(${order.clientID})">Notify Client</button>
+        <button onclick="notifyClient(${index})">Notify Client</button>
       </div>
       <div id='details-container'>
       </div>
@@ -95,6 +95,41 @@ function viewDetailsUnpaid(index) {
     `;
   })
 }
+
+
+function notifyClient(index) {
+  order = UnpaidServices[index];
+  fetch(`/clients/${order.clientID}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error fetching client');
+      }
+      return response.json();
+    })
+    .then(client => {
+      const to = client.email;
+      const text = `The following order is outstanding, please log into your account to pay the invoice\nService ordered: ${order.service}\nPrice: $${order.price}\nCompletion date: ${new Date(order.order_date).toISOString().split('T')[0]}`;
+      
+      fetch('/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ to, subject: 'You have an unpaid invoice', text })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error sending email');
+        }
+        alert('Notification sent to client.');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to send notification.');
+      });
+    });
+}
+
 
 function clearDetailsPending(index) {
   const PendingServicesList = document.getElementById("PendingServicesList");
