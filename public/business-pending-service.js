@@ -90,7 +90,7 @@ function viewDetailsUnpaid(index) {
         Price: $${order.price} <br>
         Order Date: ${new Date(order.order_date).toISOString().split('T')[0]} <br>
         Completion Date: ${new Date(order.completion_date).toISOString().split('T')[0]} <br>
-        <button onclick="clearDetailsPending(${index})" style="background-color: red;">Close</button>
+        <button onclick="clearDetailsUnpaid(${index})" style="background-color: red;">Close</button>
       </div>
     `;
   })
