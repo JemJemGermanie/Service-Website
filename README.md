@@ -43,4 +43,5 @@ Here is a step by step deployment guide:
 ## User Guide
 We have provided a guide to help users navigate the website:
 
+[Guide](https://github.com/JemJemGermanie/Service-Website/blob/main/Deliverables/User%20Guide.pdf)
 
