@@ -32,7 +32,7 @@ Here is a step by step deployment guide:
 6. Use the import function on either **empty_database.sql** or **example_database.sql**
 
 
-7. Run the server using node or nodemon by opening a clj (**Terminal** on MacOS or **cmd** on Windows),
+7. Run the server using node or nodemon by opening a cli (**Terminal** on MacOS or **cmd** on Windows),
    navigating to the project directory, and entering the following command.
 
    ```nodemon server.js```
